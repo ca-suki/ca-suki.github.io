@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #8e44ad, #3498db);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.birthday-text {
+    color: #e74c3c;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+.message {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+#celebrateBtn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+}
+
+#celebrateBtn:hover {
+    background-color: #c0392b;
+    transform: translateY(-3px);
+}
+
+.cake-container {
+    margin: 20px auto 30px;
+    position: relative;
+    height: 120px;
+    background: transparent; /* 确保容器背景透明 */
+}
+
+/* 注释掉原来的CSS蛋糕样式
+.cake {
+    width: 100px;
+    height: 70px;
+    background: #f39c12;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    margin: 0 auto;
+    box-shadow: 0 5px 0 #e67e22;
+}
+
+.cake:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    background: #e74c3c;
+    top: -20px;
+    border-radius: 10px 10px 0 0;
+}
+
+.cake:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background: #f1c40f;
+    top: 30px;
+}
+*/
+
+/* 添加新的蛋糕图片样式 */
+.cake-img {
+    width: 100px;
+    height: auto;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    background: transparent; /* 确保背景透明 */
+    image-rendering: crisp-edges; /* 现代浏览器 */
+}
+
+/* 调整蜡烛位置，使其在蛋糕图片上方居中 */
+.candle {
+    width: 10px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ecf0f1 60%, #bdc3c7 40%);
+    position: absolute;
+    top: 10px; /* 调整此值使蜡烛位于蛋糕顶部 */
+    left: 50%;
+    margin-left: -5px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.candle {
+    width: 10px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ecf0f1 60%, #bdc3c7 40%);
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    margin-left: -5px;
+    border-radius: 5px;
+}
+
+.flame {
+    width: 15px;
+    height: 25px;
+    background: linear-gradient(to bottom, #ffec40 0%, #ff4e4e 60%, #ff9b30 100%);
+    border-radius: 8px 8px 16px 16px;
+    position: absolute;
+    top: -25px;
+    left: -2.5px;
+    animation: flicker 1s infinite alternate;
+    transform-origin: bottom;
+}
+
+@keyframes flicker {
+    0% {
+        transform: scaleY(1) scaleX(1);
+        opacity: 1;
+    }
+    25% {
+        transform: scaleY(1.1) scaleX(0.9);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scaleY(0.95) scaleX(1.05);
+        opacity: 1;
+    }
+    75% {
+        transform: scaleY(1.05) scaleX(0.95);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scaleY(1) scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.balloon-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.balloon {
+    position: absolute;
+    width: 30px;
+    height: 40px;
+    border-radius: 50%;
+    bottom: -50px;
+    opacity: 0.7;
+    animation: float 15s ease-in-out infinite;
+}
+
+.balloon-1 {
+    background-color: #3498db;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.balloon-2 {
+    background-color: #e74c3c;
+    left: 35%;
+    animation-delay: 3s;
+}
+
+.balloon-3 {
+    background-color: #2ecc71;
+    left: 55%;
+    animation-delay: 6s;
+}
+
+.balloon-4 {
+    background-color: #f39c12;
+    left: 75%;
+    animation-delay: 9s;
+}
+
+.balloon:before {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    background: inherit;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0);
+        bottom: -50px;
+    }
+    50% {
+        transform: translateY(-700px) rotate(20deg);
+    }
+    100% {
+        transform: translateY(-1500px) rotate(0);
+        bottom: 110%;
+    }
+}
+
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* 移动端优化 */
+@media (max-width: 480px) {
+    .card {
+        padding: 20px 15px;
+    }
+    
+    .birthday-text {
+        font-size: 2rem;
+    }
+    
+    .message {
+        font-size: 1rem;
+    }
+    
+    .cake {
+        width: 80px;
+        height: 50px;
+    }
+    
+    .cake:before {
+        height: 15px;
+        top: -15px;
+    }
+}
+
+/* 礼物盒样式 - 固定在右下角 */
+/* 替换原来的图标样式 */
+.gift-box img {
+    width: 80%;  /* 根据你的图片调整大小 */
+    height: auto;
+    object-fit: contain;
+}
+
+/* 可以视情况调整或移除背景色 */
+.gift-box {
+    width: 70px;
+    height: 70px;
+    background: transparent;  /* 改为透明背景，让图片显示 */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    /* 固定定位到右下角 */
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.gift-box i {
+    font-size: 35px;
+    color: white;
+}
+
+.gift-box:hover {
+    transform: scale(1.05);
+}
+
+/* 礼物盒打开动画 */
+.gift-open {
+    animation: open-gift 0.8s forwards;
+}
+
+@keyframes open-gift {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2) rotate(10deg);
+    }
+    100% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+}
+
+
+
+/* 移动端适配 */
+@media (max-width: 480px) {
+    .gift-box {
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .gift-box img {
+        width: 80%;
+    }
+}
+

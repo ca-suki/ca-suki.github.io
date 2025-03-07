@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐！</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div id="video-container" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;">
+        <div style="position: relative; width: 80%; max-width: 800px;">
+            <video id="birthday-video" width="100%" controls>
+                <source src="NGGYU.mp4" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+            <button id="close-video" style="position: absolute; top: -40px; right: 0; background: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 20px; cursor: pointer;">×</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="cake-container">
+                <img src="cake.png" alt="生日蛋糕" class="cake-img">
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+            </div>
+            
+            <h1 class="birthday-text">生日快乐！</h1>
+            <p class="message">亲爱的HHY&GBH：</p>
+            <p class="message">愿你的生日充满欢乐、幸福和惊喜！</p>
+            <p class="message">祝你在新的一年里梦想成真！</p>
+            <p class="message">右下角有惊喜哦！</p>
+            
+            <div class="balloon-container">
+                <div class="balloon balloon-1"></div>
+                <div class="balloon balloon-2"></div>
+                <div class="balloon balloon-3"></div>
+                <div class="balloon balloon-4"></div>
+            </div>
+            
+            <button id="celebrateBtn">点击这里庆祝！</button>
+            
+            <div id="confetti-container"></div>
+        </div>
+
+        <div id="gift-box" class="gift-box">
+            <img src="gift-box.png" alt="礼物盒">
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
