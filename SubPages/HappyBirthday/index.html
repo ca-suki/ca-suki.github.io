@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐！</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="cake-container">
+                <img src="cake.png" alt="生日蛋糕" class="cake-img">
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+            </div>
+            
+            <h1 class="birthday-text">生日快乐！</h1>
+            <p class="message">亲爱的HHY&GBH：</p>
+            <p class="message">愿你的生日充满欢乐、幸福和惊喜！</p>
+            <p class="message">祝你在新的一年里梦想成真！</p>
+            <p class="message">右下角有惊喜哦！</p>
+            
+            <div class="balloon-container">
+                <div class="balloon balloon-1"></div>
+                <div class="balloon balloon-2"></div>
+                <div class="balloon balloon-3"></div>
+                <div class="balloon balloon-4"></div>
+            </div>
+            
+            <button id="celebrateBtn">点击这里庆祝！</button>
+            
+            <div id="confetti-container"></div>
+        </div>
+
+        <div id="gift-box" class="gift-box">
+            <img src="gift-box.png" alt="礼物盒">
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
