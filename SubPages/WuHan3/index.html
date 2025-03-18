@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武汉红色寻访 - 革命记忆与时代传承</title>
+    <style>
+        :root {
+            --primary-color: #c62828;
+            --secondary-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+            line-height: 1.6;
+        }
+
+        /* 动态导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(198, 40, 40, 0.95);
+            padding: 1rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 头部视觉设计 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)),
+                        url('https://example.com/wuhan-red-site.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease;
+        }
+
+        /* 内容章节设计 */
+        .section {
+            padding: 4rem 10%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .timeline-item {
+            padding: 2rem;
+            background: white;
+            border-left: 3px solid var(--primary-color);
+            margin: 2rem 0;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 交互动效 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 2rem 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="#intro">寻访缘起</a>
+            <a href="#sites">红色地标</a>
+            <a href="#reflection">青年思考</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>武汉红色寻访<br><span style="font-size: 0.8em;">革命星火映江城</span></h1>
+    </header>
+
+    <section id="intro" class="section">
+        <div class="card">
+            <h2>寻访背景</h2>
+            <p>武汉，这座英雄的城市，在中国革命史上书写了浓墨重彩的篇章。从武昌起义的枪声到八七会议的转折，从抗日战争的烽火到新中国建设的豪情，红色基因深深融入城市血脉...</p>
+        </div>
+    </section>
+
+    <section id="sites" class="section">
+        <h2 style="text-align: center; color: var(--primary-color);">红色地标巡礼</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>中共五大会址</h3>
+                <p>1927年在此召开的中共五大，是党在危急时刻的重要转折点...</p>
+            </div>
+            <div class="card">
+                <h3>八七会议会址</h3>
+                <p>1927年8月7日，党中央在此召开紧急会议，毛泽东同志提出"枪杆子里出政权"的著名论断...</p>
+            </div>
+            <div class="card">
+                <h3>武汉二七纪念馆</h3>
+                <p>纪念1923年京汉铁路工人大罢工，展现中国工人阶级的伟大力量...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="reflection" class="section">
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>历史回响</h3>
+                <p>触摸斑驳的砖墙，泛黄的文件档案将我们带回那个风雨如磐的年代...</p>
+            </div>
+            <div class="timeline-item">
+                <h3>精神传承</h3>
+                <p>从革命先驱的抉择中，我们读懂了什么是真正的初心如磐、使命在肩...</p>
+            </div>
+            <div class="timeline-item">
+                <h3>当代启示</h3>
+                <p>新时代青年如何继承红色基因？答案在抗疫精神中，在科技创新中，在每一个平凡岗位上...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2023 武汉红色文化寻访团 · 传承红色基因 担当时代使命</p>
+    </footer>
+
+    <script>
+        // 滚动动画控制
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.timeline-item').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // 导航栏交互
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            sections.forEach(sec => {
+                const top = window.scrollY;
+                const offset = sec.offsetTop - 150;
+                const height = sec.offsetHeight;
+                const id = sec.getAttribute('id');
+
+                if (top >= offset && top < offset + height) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').includes(id)) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</
