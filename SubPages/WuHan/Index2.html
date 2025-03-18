@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武汉红色寻访</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'ZCOOL QingKe HuangYou', cursive;
+            line-height: 1.6;
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(204, 0, 0, 0.9);
+            color: white;
+            padding: 1rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        nav.hidden {
+            transform: translateY(-100%);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffcc00;
+        }
+
+        /* 横幅样式 */
+        .banner {
+            height: 100vh;
+            background: url('https://img.alicdn.com/imgextra/i4/O1CN01ZvF7Xg1D4SG4q4D2A_!!6000000000248-2-tps-1920-1080.jpg') no-repeat center center/cover;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+        }
+
+        .banner h1 {
+            font-size: 4rem;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* 内容区域样式 */
+        .content {
+            padding: 6rem 2rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h2 {
+            color: #c41e3a;
+            font-size: 2.5rem;
+            border-bottom: 3px solid #ffcc00;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 1rem 0;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* 时间轴样式 */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #c41e3a;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-item {
+            padding: 1rem 4rem;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .timeline-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: #c41e3a;
+            border: 4px solid #ffcc00;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .right::after {
+            left: -16px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item::after {
+                left: 15px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">武汉红色印记</div>
+        <div class="nav-links">
+            <a href="#about">简介</a>
+            <a href="#sites">红色景点</a>
+            <a href="#timeline">历史时刻</a>
+            <a href="#map">地图导览</a>
+        </div>
+    </nav>
+
+    <!-- 横幅 -->
+    <div class="banner">
+        <h1>追寻红色足迹<br>传承革命精神</h1>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content">
+        <!-- 简介部分 -->
+        <section id="about" class="section">
+            <h2>关于武汉红色历史</h2>
+            <p>武汉是中国近代革命的重要发源地之一，这里发生过许多重大历史事件，保留着丰富的红色文化遗产...</p>
+        </section>
+
+        <!-- 红色景点 -->
+        <section id="sites" class="section">
+            <h2>重要红色景点</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="https://img.alicdn.com/imgextra/i2/O1CN01Gq2QbN1D4SG4q4D2A_!!6000000000248-2-tps-600-400.jpg" alt="武昌起义军政府旧址">
+                    <div class="card-content">
+                        <h3>武昌起义军政府旧址</h3>
+                        <p>辛亥革命的重要历史见证</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://img.alicdn.com/imgextra/i1/O1CN01KvXz4g1D4SG4q4D2A_!!6000000000248-2-tps-600-400.jpg" alt="八路军武汉办事处旧址">
+                    <div class="card-content">
+                        <h3>八路军武汉办事处旧址</h3>
+                        <p>抗战时期的重要指挥中心</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 历史时间轴 -->
+        <section id="timeline" class="section">
+            <h2>重要历史时刻</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>1911年</h3>
+                        <p>武昌起义爆发，打响辛亥革命第一枪</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>1927年</h3>
+                        <p>八七会议在汉召开，确定土地革命方针</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 地图导览 -->
+        <section id="map" class="section">
+            <h2>红色地图导览</h2>
+            <iframe src="https://map.sogou.com/poi/%E6%AD%A6%E6%98%8C%E8%B5%B7%E4%B9%89%E5%86%9B%E6%94%BF%E5%BA%9C%E6%97%A7%E5%9D%80__114.305419_30.593157__16/" 
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2023 武汉红色文化研究会 版权所有</p>
+    </footer>
+
+    <script>
+        // 滚动动画
+        const sections = document.querySelectorAll('.section');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const navbar = document.getElementById('navbar');
+        let prevScrollPos = window.pageYOffset;
+
+        window.addEventListener('scroll', () => {
+            let currentScrollPos = window.pageYOffset;
+
+            // 导航栏隐藏/显示效果
+            if (prevScrollPos > currentScrollPos) {
+                navbar.classList.remove('hidden');
+            } else {
+                navbar.classList.add('hidden');
+            }
+            prevScrollPos = currentScrollPos;
+
+            // 滚动时激活section
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - window.innerHeight / 1.5) {
+                    section.classList.add('active');
+                }
+            });
+
+            // 时间轴动画
+            timelineItems.forEach((item, index) => {
+                const itemTop = item.getBoundingClientRect().top;
+                if (itemTop < window.innerHeight * 0.75) {
+                    setTimeout(() => {
+                        item.classList.add('active');
+                    }, index * 200); // 逐个延迟出现
+                }
+            });
+        });
+    </script>
+</body>
+</html>
