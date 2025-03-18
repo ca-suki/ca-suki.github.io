@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武汉红色寻访: 体会与思考</title>
+    <style>
+        :root {
+            --primary-color: #c42020;
+            --secondary-color: #f8f0e5;
+            --text-color: #333333;
+            --accent-color: #ffcccb;
+            --dark-accent: #8b0000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", "SimHei", sans-serif;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1576507741760-c26733448325?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            font-size: 1.2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+        
+        .sites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .site-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .site-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .site-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .site-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .site-card:hover .site-img img {
+            transform: scale(1.1);
+        }
+        
+        .site-content {
+            padding: 20px;
+        }
+        
+        .site-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark-accent);
+        }
+        
+        .site-content p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .read-more {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .read-more:hover {
+            background-color: var(--dark-accent);
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px 0;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border: 4px solid var(--primary-color);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::after {
+            right: -12px;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark-accent);
+        }
+        
+        .reflection {
+            background-color: var(--secondary-color);
+            padding: 80px 0;
+        }
+        
+        .reflection-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .reflection-content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        blockquote {
+            font-style: italic;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 20px;
+            margin: 30px 0;
+        }
+        
+        .cta {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1548596472-53d40468f86d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--dark-accent);
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 18px;
+            }
+            
+            .left::after, .right::after {
+                left: 18px;
+            }
+            
+            .right {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>武汉红色寻访: 体会与思考</h1>
+        <p>追寻革命足迹，感悟红色记忆，传承红色基因</p>
+        <div class="scroll-down">↓ 向下滚动 ↓</div>
+    </header>
+
+    <section class="container">
+        <h2 class="section-title">武汉红色地标</h2>
+        <div class="sites-grid">
+            <div class="site-card">
+                <div class="site-img">
+                    <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="武昌起义纪念馆">
+                </div>
+                <div class="site-content">
+                    <h3>武昌起义纪念馆</h3>
+                    <p>武昌起义是辛亥革命的开端，这里记录了1911年那场改变中国历史进程的重大事件。纪念馆位于原湖北军政府旧址，是国家级重点文物保护单位。</p>
+                    <a href="#" class="read-more">了解更多</a>
+                </div>
+            </div>
+            <div class="site-card">
+                <div class="site-img">
+                    <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="八七会议会址纪念馆">
+                </div>
+                <div class="site-content">
+                    <h3>八七会议会址纪念馆</h3>
+                    <p>1927年8月7日，中共中央在武汉召开紧急会议，确定了土地革命和武装反抗国民党反动派的总方针，是中国革命史上的重要转折点。</p>
+                    <a href="#" class="read-more">了解更多</a>
+                </div>
+            </div>
+            <div class="site-card">
+                <div class="site-img">
+                    <img src="https://images.unsplash.com/photo-1495562569060-2eec283d3391?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="中共五大会址纪念馆">
+                </div>
+                <div class="site-content">
+                    <h3>中共五大会址纪念馆</h3>
+                    <p>1927年4月27日至5月9日，中国共产党第五次全国代表大会在武汉召开，这是中共历史上第一次在国内召开的全国代表大会。</p>
+                    <a href="#" class="read-more">了解更多</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">革命历程</h2>
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>1911年10月10日</h3>
+                    <p>武昌起义爆发，拉开了辛亥革命的序幕，最终导致了清朝的覆灭和中华民国的建立。</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>1926年12月</h3>
+                    <p>国民革命军攻占武汉三镇，北伐战争取得重大进展，武汉成为革命中心。</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>1927年4月</h3>
+                    <p>中共五大在武汉召开，进一步确立了党在民族革命中的地位和作用。</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>1927年8月7日</h3>
+                    <p>八七会议在汉口召开，确立了土地革命和武装斗争的方针，开启了中国革命新阶段。</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>1938年-1945年</h3>
+                    <p>武汉成为抗战初期的重要战略要地，武汉保卫战成为中国抗战史上的重要篇章。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reflection">
+        <div class="container">
+            <h2 class="section-title">体会与思考</h2>
+            <div class="reflection-content">
+                <p>走访武汉红色遗址，我深刻体会到革命先辈们不畏牺牲、勇往直前的精神。在这片热土上，无数仁人志士为了国家的独立和人民的解放奋斗不息，谱写了中国革命史上的壮丽篇章。</p>
+                <blockquote>
+                    历史是最好的教科书，红色基因是最好的精神财富。红色旅游不仅是对历史的回顾，更是对精神的传承和对未来的启示。
+                </blockquote>
+                <p>通过红色寻访，我们应当汲取历史智慧，传承红色基因，把革命先烈的精神转化为实现中华民族伟大复兴的强大动力。在新时代的征程上，我们要不忘初心，牢记使命，为实现中国梦而不懈奋斗。</p>
+                <p>红色寻访活动让我们重温历史，感受先辈们的艰辛与伟大，也让我们更加珍惜今天来之不易的幸福生活。今天的繁荣稳定是无数先烈用鲜血和生命换来的，我们要永远铭记这段历史，传承红色基因，砥砺前行。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>传承红色记忆，激发奋进力量</h2>
+            <p>让我们一起追寻红色足迹，传承革命精神，为实现中华民族伟大复兴贡献力量</p>
+            <a href="#" class="cta-button">参与红色寻访活动</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 武汉红色寻访团 | 网页设计：红色文化传承工作室</p>
+    </footer>
+
+    <script>
+        // 滚动效果
+        document.querySelector('.scroll-down').addEventListener('click', function() {
+            window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 滚动时元素渐入效果
+        window.addEventListener('scroll', function() {
+            const elements = document.querySelectorAll('.site-card, .timeline-item, .section-title');
+            
+            elements.forEach(function(element) {
+                const position = element.getBoundingClientRect();
+                
+                if(position.top < window.innerHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        // 页面加载时初始化
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.site-card, .timeline-item, .section-title');
+            
+            elements.forEach(function(element) {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+            
+            setTimeout(function() {
+                window.scrollBy(0, 1);
+            }, 100);
+        });
+    </script>
+</body>
+</html>
