@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武汉红色寻访与研讨</title>
+    <!-- FullPage.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.css">
+    <!-- Timeline CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timelinejs/3.6.6/css/timeline.min.css">
+    <!-- AOS CSS for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <!-- Pannellum for panorama -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #de2910; /* Chinese red */
+            --secondary-color: #ffde00; /* Chinese yellow */
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+            --text-color: #222;
+            --text-light: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "SimSun", "宋体", "Microsoft YaHei", "微软雅黑", sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            overflow: hidden;
+        }
+
+        .section {
+            text-align: center;
+            padding: 50px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: var(--text-light);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+        }
+
+        /* Timeline styles */
+        .timeline-container {
+            width: 100%;
+            height: 500px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Image comparison */
+        .image-comparison {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+
+        .comparison-item {
+            width: 45%;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .comparison-item:hover {
+            transform: scale(1.05);
+        }
+
+        .comparison-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .comparison-caption {
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        /* Data visualization */
+        .chart-container {
+            margin: 30px auto;
+            width: 80%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Panorama container */
+        .panorama-container {
+            width: 100%;
+            height: 500px;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation dots */
+        #fp-nav ul li a span, 
+        .fp-slidesNav ul li a span {
+            background: var(--secondary-color);
+        }
+
+        /* Two-column layout */
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        /* Audio player styling */
+        .audio-player {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .audio-player h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        /* Quote styling */
+        .quote {
+            font-style: italic;
+            font-size: 1.3rem;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 20px;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .loader-spinner {
+            border: 5px solid var(--secondary-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .section { padding: 30px; }
+            .image-comparison { flex-direction: column; align-items: center; }
+            .comparison-item { width: 90%; margin-bottom: 20px; }
+            .column { flex: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2>正在加载武汉红色之旅...</h2>
+            <p>请稍候，我们正在准备丰富的历史内容</p>
+        </div>
+    </div>
+
+    <div id="fullpage">
+        <!-- 首页 - 封面 -->
+        <div class="section" style="background-image: url('https://picsum.photos/1920/1080?random=1');">
+            <div class="content" data-aos="fade-up">
+                <h1>武汉红色寻访与研讨</h1>
+                <p>追寻革命足迹，感悟红色精神，传承历史记忆</p>
+                <div>
+                    <a href="#xinhai" class="btn">开始旅程</a>
+                    <a href="#about" class="btn">关于项目</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 辛亥革命博物馆 -->
+        <div class="section" style="background-image: url('https://picsum.photos/1920/1080?random=2');" data-anchor="xinhai">
+            <div class="content">
+                <h2>辛亥革命博物馆</h2>
+                <div class="two-column">
+                    <div class="column" data-aos="fade-right">
+                        <p>辛亥革命博物馆坐落于武昌起义军政府旧址，是中国唯一全面反映辛亥革命历史的专题博物馆。1911年10月10日，以孙中山为首的革命党人在此发动了震惊中外的武昌起义，推翻了清朝统治，结束了中国两千多年的封建帝制。</p>
+                        <div class="quote">
+                            "革命尚未成功，同志仍需努力。" —— 孙中山
+                        </div>
+                        <p>博物馆收藏了大量珍贵的历史文物和图片资料，全面展示了辛亥革命的历史背景、革命进程和历史意义，是了解中国近代革命史的重要窗口。</p>
+                    </div>
+                    <div class="column" data-aos="fade-left">
+                        <div class="image-comparison">
+                            <div class="comparison-item">
+                                <img src="https://picsum.photos/600/400?random=3" alt="辛亥革命时期旧照">
+                                <div class="comparison-caption">1911年辛亥革命时期</div>
+                            </div>
+                            <div class="comparison-item">
+                                <img src="https://picsum.photos/600/400?random=4" alt="现代辛亥革命博物馆">
+                                <div class="comparison-caption">今日辛亥革命博物馆</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="audio-player" data-aos="zoom-in">
+                    <h3>历史原声：辛亥革命纪念歌</h3>
+                    <audio controls>
+                        <source src="#" type="audio/mpeg">
+                        您的浏览器不支持音频播放。
+                    </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- 武昌起义门 -->
+        <div class="section" style="background-image: url('https://picsum.photos/1920/1080?random=5');">
+            <div class="content">
+                <h2>武昌起义门</h2>
+                <div class="two-column">
+                    <div class="column" data-aos="fa
