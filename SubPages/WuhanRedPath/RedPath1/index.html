@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>武汉红色记忆数字展馆</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.15/fullpage.min.css">
+    <style>
+        :root {
+            --primary-red: #9d1b16;
+            --vintage-white: #f5f5f5;
+        }
+        
+        body {
+            font-family: '思源黑体', 'Microsoft YaHei', sans-serif;
+            background: var(--vintage-white);
+        }
+
+        .section {
+            padding: 50px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .historical-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .comparison-slider {
+            width: 100%;
+            max-width: 1000px;
+            margin: auto;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+<div id="fullpage">
+    <!-- 封面 -->
+    <div class="section" style="background-image: url('old_wuhan.jpg');">
+        <div class="historical-card">
+            <h1>武汉红色记忆数字展馆</h1>
+            <p>寻访历史足迹 · 传承红色基因</p>
+        </div>
+    </div>
+
+    <!-- 时间轴 -->
+    <div class="section">
+        <div class="historical-card">
+            <h2>革命时间轴</h2>
+            <div class="timeline">
+                <div class="timeline-item">1911 武昌起义</div>
+                <div class="timeline-item">1927 八七会议</div>
+                <!-- 更多时间节点 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 影像对比 -->
+    <div class="section">
+        <div class="comparison-slider">
+            <img src="old_photo.jpg" alt="历史照片">
+            <img src="new_photo.jpg" alt="现状照片" class="overlay">
+        </div>
+    </div>
+
+    <!-- 数据可视化 -->
+    <div class="section">
+        <div id="revolution-chart" style="height:600px;"></div>
+    </div>
+
+    <!-- 全景展示 -->
+    <div class="section">
+        <div id="panorama" style="height:100vh;"></div>
+        <audio id="history-audio" src="historical_sound.mp3"></audio>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.15/fullpage.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.js"></script>
+
+<script>
+    // 初始化全屏滚动
+    new fullpage('#fullpage', {
+        navigation: true,
+        scrollOverflow: true
+    });
+
+    // 初始化数据可视化
+    const chart = echarts.init(document.getElementById('revolution-chart'));
+    chart.setOption({
+        title: { text: '武汉革命事件时空分布' },
+        series: [{
+            type: 'map',
+            map: 'wuhan',
+            data: []
+        }]
+    });
+
+    // 初始化全景展示
+    const viewer = new PhotoSphereViewer.Viewer({
+        container: document.querySelector('#panorama'),
+        panorama: 'museum_panorama.jpg',
+        caption: '中共五大会址纪念馆全景'
+    });
+
+    // 历史原声控制
+    document.querySelector('#panorama').addEventListener('click', () => {
+        document.getElementById('history-audio').play();
+    });
+</script>
+
+</body>
+</html>
