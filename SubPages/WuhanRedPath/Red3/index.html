@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>辛亥革命博物馆参访心得</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+        
+        .historical-bg {
+            background: 
+                linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.85)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23a00" stroke-width="0.5"/></svg>');
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1.2s ease-out forwards;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 1s ease-out forwards;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 1s ease-out forwards;
+        }
+        
+        .page-transition {
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .page-leave {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        
+        .page-enter {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .vintage-border {
+            border: 8px solid transparent;
+            border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" fill="none" stroke="%23a00" stroke-width="3" stroke-dasharray="10,5"/></svg>') 10;
+        }
+        
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .slide-content {
+            max-height: 60vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #a00 #333;
+        }
+        
+        .slide-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .slide-content::-webkit-scrollbar-track {
+            background: #333;
+        }
+        
+        .slide-content::-webkit-scrollbar-thumb {
+            background-color: #a00;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen historical-bg">
+    <!-- 导航控制 -->
+    <div class="fixed bottom-8 left-0 right-0 flex justify-center space-x-4 z-20">
+        <button id="prev-btn" class="px-6 py-3 bg-red-900 hover:bg-red-800 text-white rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            上一页
+        </button>
+        <button id="menu-btn" class="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            目录
+        </button>
+        <button id="next-btn" class="px-6 py-3 bg-red-900 hover:bg-red-800 text-white rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center">
+            下一页
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- 页码指示 -->
+    <div class="fixed top-4 right-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm z-10">
+        <span id="page-indicator">1 / 25</span>
+    </div>
+
+    <!-- 主内容区域 -->
+    <main class="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
+        <div id="slide-container" class="w-full max-w-4xl page-transition">
+            <div class="bg-black bg-opacity-70 rounded-xl overflow-hidden shadow-2xl vintage-border">
+                <div class="relative h-96">
+                    <img id="slide-image" src="" alt="历史图片" class="w-full h-full object-cover object-center opacity-90 transition-opacity duration-1000">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <h2 id="slide-title" class="text-4xl font-bold text-white mb-2 text-shadow slide-in-right"></h2>
+                        <h3 id="slide-subtitle" class="text-xl text-red-300 italic text-shadow slide-in-left"></h3>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div id="slide-content" class="text-lg leading-relaxed text-gray-200 slide-content fade-in"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 目录菜单 -->
+    <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-90 z-30 hidden flex items-center justify-center p-4">
+        <div class="w-full max-w-2xl bg-gray-900 rounded-xl shadow-2xl border border-red-900 overflow-hidden">
+            <div class="p-6 border-b border-red-900">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    心得体会目录
+                </h2>
+            </div>
+            <div class="overflow-y-auto max-h-[70vh]">
+                <ul id="slide-menu" class="divide-y divide-gray-800">
+                    <!-- 目录项将通过JavaScript动态生成 -->
+                </ul>
+            </div>
+            <div class="p-4 border-t border-red-900 text-center">
+                <button id="close-menu" class="px-4 py-2 bg-red-900 hover:bg-red-800 text-white rounded-md transition-colors">
+                    关闭目录
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 键盘提示 -->
+    <div class="fixed bottom-4 right-4 bg-black bg-opacity-70 text-xs text-gray-300 px-3 py-1 rounded-full hidden md:block">
+        ← → 键切换页面 | M 键打开目录 | ESC 关闭目录
+    </div>
+
+    <script>
+        // 心得体会内容数据
+        const slides = [
+            { 
+                title: "觉醒", 
+                subtitle: "在历史现场感受信仰的力量", 
+                content: "站在辛亥革命博物馆里，我突然明白了什么是'虽千万人吾往矣'的勇气。那些泛黄的照片、斑驳的文物，都在诉说着百年前一群年轻人为民族存亡而战的故事。此刻，历史不再是书本上的文字，而是一种直击心灵的震撼。我仿佛听见了革命先烈的呐喊，看见了他们眼中坚定的光芒。这种信仰的力量，穿越时空，依然能够唤醒我们内心深处对民族大义的认同。", 
+                image: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            { 
+                title: "震撼", 
+                subtitle: "第一展厅的视觉冲击", 
+                content: "一进门就被巨大的浮雕墙震撼。那些深深刻画的面孔，有学生、有工人、有军人，他们的眼神中透着坚定。最令我动容的是一位年轻学生的形象，他手中紧握的不是武器，而是一本书——这让我思考：在那个年代，知识本身就是一种革命的力量。展厅的设计巧妙地将光影与实物结合，当走过转角，一束光正好打在那面'驱除鞑虏，恢复中华'的旗帜上，那一刻，我理解了什么是视觉的震撼与精神的共鸣。", 
+                image: "https://images.unsplash.com/photo-1519817650390-64a93db51149?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            { 
+                title: "凝视", 
+                subtitle: "与历史人物的对话", 
+                content: "看着孙中山先生的手稿，字迹遒劲有力。'革命尚未成功，同志仍须努力'这十二个字仿佛穿越时空，在耳边回响。展柜里还有一支钢笔，说明牌显示这是先生流亡海外时使用的。我凝视着这支笔，想象他在异国他乡，用这支笔写下多少救国方略。最触动我的是旁边展示的账本，记录着海外华侨捐赠的每一分钱——革命的成功，从来不是少数人的功劳，而是千千万万普通人的支持。", 
+                image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            { 
+                title: "抉择", 
+                subtitle: "生死关头的选择", 
+                content: "看到黄兴使用过的手枪，思绪万千。1911年的那个夜晚，扣动扳机意味着什么？展馆用多媒体技术重现了当时的场景：枪声响起后，不是立即的欢呼，而是短暂的寂静——那是历史转折点的沉重。旁边的展板记录着参与者的年龄，平均不到25岁。他们在最好的年华，做出了最艰难的选择。这让我思考：今天的我们，在面对人生抉择时，是否也能有这样为国为民的胸怀？", 
+                image: "https://images.unsplash.com/photo-1518893880331-6d702f6feaac?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            { 
+                title: "温度", 
+                subtitle: "一封家书的启示", 
+                content: "玻璃展柜里的一封家书让我驻足：'儿已决意投身革命，若成，则万民得福；不成，则自家不幸。望母亲见谅。'字迹有些晕染，不知是墨迹还是泪水。这封家书旁边，还展示着这位烈士的母亲后来的回信：'吾儿壮志，为娘心慰。家中一切安好，勿念。'简短的文字背后，是一个家庭对国家的奉献。我突然想起自己的家人，我们今天的安定生活，正是建立在无数这样的牺牲之上。", 
+                image: "https://images.unsplash.com/photo-1517191434949-5e90cd67d2b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            { 
+                title: "青春", 
+                subtitle: "百年前的同龄人", 
+                content: "发现很多起义者和我们年龄相仿。20岁的新军士兵，19岁的学生志愿者...展馆特别设置了一面'青春墙'，用投影技术让这些年轻革命者的照片依次浮现。最令我震撼的是其中一位女学生的日记摘抄：'今日剪去长发，女扮男装加入学生军。女子亦国民一分子，救国岂分男女？'看着这些鲜活的面孔，我扪心自问：同为年轻人，我们是否也能在国家需要时挺身而出？", 
+                image: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            { 
+                title: "细节", 
+                subtitle: "被忽视的历史密码", 
+                content: "注意到一件破旧的学生制服，袖口有修补痕迹。解说员告诉我们，这是武昌起义前夜，学生军相互辨认的暗号——将左袖口挽起一寸。正是这些看似普通的细节，见证了武昌街头的第一声呐喊。展馆还展示了起义当天的天气记录：1911年10月10日，阴有小雨。想象着那些年轻人在雨中奔跑传递消息的场景，我突然明白：历史的大事件，往往由无数这样的细节构成。", 
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            { 
+                title: "传承", 
+                subtitle: "跨越时空的精神接力", 
+                content: "抚摸展馆结尾处的留言簿，最新一页写着：'爷爷，您当年参加过武昌起义，今天我来了。您的信仰，我们记着。'这句话让我泪目。在出口处的互动区，我看到了许多当代年轻人的留言：'愿以所学报效祖国''将继承先辈精神'...最特别的是一个小朋友的画：一群人手拉手围着一面国旗。这就是传承的意义——不是简单的记忆，而是精神的延续。", 
+                image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            }
+        ];
+
+        // 当前页码和状态
+        let currentPage = 0;
+        let isAnimating = false;
+        
+        // DOM元素
+        const slideContainer = document.getElementById('slide-container');
+        const slideImage = document.getElementById('slide-image');
+        const slideTitle = document.getElementById('slide-title');
+        const slideSubtitle = document.getElementById('slide-subtitle');
+        const slideContent = document.getElementById('slide-content');
+        const pageIndicator = document.getElementById('page-indicator');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const menuBtn = document.getElementById('menu-btn');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const slideMenu = document.getElementById('slide-menu');
+        
+        // 初始化幻灯片
+        function initSlides() {
+            updateSlide();
+            createMenuItems();
+            addAnimationObservers();
+        }
+        
+        // 更新当前幻灯片
+        function updateSlide() {
+            const slide = slides[currentPage];
+            
+            // 预加载图片
+            const img = new Image();
+            img.src = slide.image;
+            img.onload = () => {
+                slideImage.src = slide.image;
+                slideImage.classList.add('opacity-90');
+            };
+            
+            slideTitle.textContent = slide.title;
+            slideSubtitle.textContent = slide.subtitle;
+            slideContent.textContent = slide.content;
+            pageIndicator.textContent = `${currentPage + 1} / ${slides.length}`;
+            
+            // 更新按钮状态
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === slides.length - 1;
+            
+            // 重置动画类
+            slideTitle.classList.remove('slide-in-right');
+            slideSubtitle.classList.remove('slide-in-left');
+            slideContent.classList.remove('fade-in');
+            
+            // 触发重新渲染
+            void slideTitle.offsetWidth;
+            void slideSubtitle.offsetWidth;
+            void slideContent.offsetWidth;
+            
+            // 重新添加动画类
+            slideTitle.classList.add('slide-in-right');
+            slideSubtitle.classList.add('slide-in-left');
+            slideContent.classList.add('fade-in');
+        }
+        
+        // 创建目录菜单
+        function createMenuItems() {
+            slideMenu.innerHTML = '';
+            
+            slides.forEach((slide, index) => {
+                const li = document.createElement('li');
+                li.className = 'hover:bg-gray-800 transition-colors';
+                
+                const button = document.createElement('button');
+                button.className = 'w-full text-left px-6 py-4 flex items-center';
+                button.innerHTML = `
+                    <span class="text-red-500 font-mono w-8">${index + 1}.</span>
+                    <span class="flex-1">${slide.title}</span>
+                    <span class="text-sm text-gray-400">${slide.subtitle}</span>
+                `;
+                
+                button.addEventListener('click', () => {
+                    goToSlide(index);
+                    menuOverlay.classList.add('hidden');
+                });
+                
+                // 当前页高亮
+                if (index === currentPage) {
+                    li.className += ' bg-gray-800';
+                }
+                
+                li.appendChild(button);
+                slideMenu.appendChild(li);
+            });
+        }
+        
+        // 添加交互动画观察器
+        function addAnimationObservers() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('page-enter');
+                        entry.target.classList.remove('page-leave');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            observer.observe(slideContainer);
+        }
+        
+        // 切换到指定幻灯片
+        function goToSlide(index) {
+            if (isAnimating || index === currentPage) return;
+            
+            isAnimating = true;
+            slideContainer.classList.add('page-leave');
+            slideContainer.classList.remove('page-enter');
+            
+            setTimeout(() => {
+                currentPage = index;
+                updateSlide();
+                createMenuItems();
+                
+                slideContainer.classList.remove('page-leave');
+                slideContainer.classList.add('page-enter');
+                isAnimating = false;
+            }, 800);
+        }
+        
+        // 上一页
+        function prevSlide() {
+            if (isAnimating || currentPage === 0) return;
+            goToSlide(currentPage - 1);
+        }
+        
+        // 下一页
+        function nextSlide() {
+            if (isAnimating || currentPage === slides.length - 1) return;
+            goToSlide(currentPage + 1);
+        }
+        
+        // 事件监听
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        menuBtn.addEventListener('click', () => menuOverlay.classList.remove('hidden'));
+        closeMenuBtn.addEventListener('click', () => menuOverlay.classList.add('hidden'));
+        
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'Escape') menuOverlay.classList.add('hidden');
+            if (e.key === 'm' || e.key === 'M') menuOverlay.classList.toggle('hidden');
+        });
+        
+        // 初始化
+        window.addEventListener('DOMContentLoaded', initSlides);
+    </script>
+</body>
+</html>
