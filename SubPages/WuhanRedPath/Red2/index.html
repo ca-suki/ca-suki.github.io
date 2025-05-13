@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>辛亥革命历史回顾</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #1a1a1a;
+            color: #e8e8e8;
+            overflow-x: hidden;
+        }
+        
+        /* 历史纸张背景 */
+        .paper-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.2 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.3"/></svg>'), 
+                            linear-gradient(to bottom, #2b1e0f 0%, #3a2a15 100%);
+            background-blend-mode: overlay;
+        }
+        
+        /* 标题装饰 */
+        .title-decoration::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 30px;
+            height: 3px;
+            background: #c62828;
+            transform: translateY(-50%);
+        }
+        
+        .title-decoration::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 30px;
+            height: 3px;
+            background: #c62828;
+            transform: translateY(-50%);
+        }
+        
+        /* 幻灯片动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .slide-enter {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .slide-image-enter {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        .slide-content-enter {
+            animation: slideInLeft 0.8s ease-out 0.3s both;
+        }
+        
+        /* 历史照片效果 */
+        .historical-photo {
+            border: 8px solid #2b1e0f;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .historical-photo::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+        }
+        
+        /* 时间轴效果 */
+        .timeline-marker {
+            position: relative;
+        }
+        
+        .timeline-marker::before {
+            content: "";
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #c62828;
+            border: 3px solid #8d6e63;
+        }
+        
+        /* 革命红渐变 */
+        .revolution-red {
+            background: linear-gradient(135deg, #8b0000 0%, #c62828 100%);
+        }
+        
+        /* 按钮效果 */
+        .btn-revolution {
+            background: linear-gradient(135deg, #8b0000 0%, #c62828 100%);
+            box-shadow: 0 4px 15px rgba(198, 40, 40, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-revolution:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(198, 40, 40, 0.6);
+        }
+        
+        /* 菜单动画 */
+        @keyframes menuSlideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .menu-slide-in {
+            animation: menuSlideIn 0.5s ease-out forwards;
+        }
+        
+        /* 旧纸张效果 */
+        .old-paper {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.2 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.3"/></svg>'), 
+                            linear-gradient(to bottom, #f5e8d0 0%, #e6d5b8 100%);
+            background-blend-mode: overlay;
+            border: 1px solid #d1b38e;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="paper-bg">
+    <!-- 标题栏 -->
+    <header class="revolution-red py-4 px-6 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-center relative px-12">
+                <h1 class="text-2xl font-bold title-decoration">辛亥革命历史回顾</h1>
+                <p class="text-sm text-red-200 mt-1 italic">武昌起义110周年纪念</p>
+            </div>
+            <button id="menu-toggle" class="text-white hover:text-red-200 transition-colors" aria-label="Toggle menu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- 侧边菜单 -->
+    <div id="side-menu" class="hidden fixed inset-0 bg-black bg-opacity-75 z-40 flex justify-end">
+        <div class="w-80 bg-gray-900 min-h-full p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-red-400 border-b border-red-800 pb-2">历史章节导航</h2>
+                <button id="close-menu" class="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors" aria-label="Close menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <ul class="space-y-2" id="slide-menu">
+                <!-- 菜单项将通过JavaScript添加 -->
+            </ul>
+            <div class="mt-8 pt-4 border-t border-gray-700">
+                <div class="flex items-center space-x-2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <span>快捷键: ← → 切换 | M 菜单 | ESC 关闭</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主体内容区域 -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-8">
+        <div id="slide-container" class="w-full max-w-6xl">
+            <div class="slide-enter bg-white old-paper rounded-lg overflow-hidden shadow-2xl border-2 border-red-900 transform transition-all duration-500">
+                <div class="relative">
+                    <img id="slide-image" src="" alt="历史图片" class="w-full h-96 object-cover historical-photo slide-image-enter">
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4 flex justify-between items-end">
+                        <div>
+                            <span id="slide-counter" class="text-red-300 text-sm font-semibold bg-black bg-opacity-50 px-2 py-1 rounded"></span>
+                            <h2 id="slide-title" class="text-2xl md:text-3xl font-bold text-white mt-1"></h2>
+                            <h3 id="slide-subtitle" class="text-lg text-red-200 italic"></h3>
+                        </div>
+                        <div id="year-display" class="text-5xl font-bold text-red-300 opacity-70 mr-4"></div>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8 slide-content-enter">
+                    <div class="prose max-w-none text-gray-800">
+                        <p id="slide-content" class="text-lg leading-relaxed"></p>
+                        <div id="timeline-content" class="mt-6 pl-6 border-l-2 border-red-800 hidden">
+                            <!-- 时间轴内容将通过JavaScript添加 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 控制按钮 -->
+    <footer class="bg-gray-900 bg-opacity-80 py-4 px-6 flex justify-between items-center sticky bottom-0 z-40 backdrop-blur-sm">
+        <button id="prev-btn" class="btn-revolution px-6 py-3 rounded-md text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            上一页
+        </button>
+        <div class="text-sm text-gray-300 hidden md:block">
+            <span id="current-year" class="font-bold">1911</span> 年 · 辛亥革命历史回顾
+        </div>
+        <button id="next-btn" class="btn-revolution px-6 py-3 rounded-md text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+            下一页
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+    </footer>
+
+    <!-- 背景音乐控制 -->
+    <div class="fixed bottom-4 left-4 z-50">
+        <button id="music-toggle" class="p-3 bg-black bg-opacity-50 rounded-full text-white hover:bg-opacity-70 transition-all">
+            <svg id="music-on" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6a7.975 7.975 0 015.657 2.343m0 0a7.975 7.975 0 010 11.314m-11.314 0a7.975 7.975 0 010-11.314m0 0a7.975 7.975 0 015.657-2.343" />
+            </svg>
+            <svg id="music-off" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+        </button>
+        <audio id="bg-music" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            <!-- 实际使用时请替换为合适的背景音乐 -->
+        </audio>
+    </div>
+
+    <script>
+        // 历史幻灯片数据
+        const slides = [
+            { 
+                title: "觉醒时刻", 
+                subtitle: "1911年10月10日 · 武昌起义爆发", 
+                content: "1911年10月10日晚，武昌新军工程第八营的革命党人打响了辛亥革命的第一枪。这一声枪响，标志着中国两千多年封建帝制的终结，开启了民主共和的新纪元。",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Wuchang_Uprising_1911.jpg/800px-Wuchang_Uprising_1911.jpg",
+                year: "1911",
+                timeline: [
+                    { time: "10月10日 19:00", event: "革命党人在武昌小朝街85号召开紧急会议" },
+                    { time: "10月10日 20:30", event: "工程第八营革命党人熊秉坤打响第一枪" },
+                    { time: "10月10日 22:00", event: "起义军占领楚望台军械库" },
+                    { time: "10月11日 凌晨", event: "起义军攻克湖广总督署" }
+                ]
+            },
+            { 
+                title: "革命先驱", 
+                subtitle: "孙中山与革命思想的传播", 
+                content: "孙中山先生作为中国民主革命的伟大先驱，提出了'驱除鞑虏，恢复中华，创立民国，平均地权'的革命纲领。他先后组织兴中会、同盟会，为辛亥革命奠定了思想和组织基础。",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Sun_Yat-sen.jpg/800px-Sun_Yat-sen.jpg",
+                year: "1894-1911",
+                timeline: [
+                    { time: "1894年", event: "孙中山在檀香山创立兴中会" },
+                    { time: "1905年", event: "中国同盟会在东京成立" },
+                    { time: "1906年", event: "同盟会发动萍浏醴起义" },
+                    { time: "1911年4月", event: "黄花岗起义，七十二烈士殉国" }
+                ]
+            },
+            { 
+                title: "革命浪潮", 
+                subtitle: "各省响应与独立", 
+                content: "武昌起义胜利后，革命浪潮迅速席卷全国。短短两个月内，湖南、陕西、江西、山西、云南、贵州、江苏、浙江、广西、安徽、福建、广东、四川等15个省先后宣布独立，清王朝的统治土崩瓦解。",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Revolutionary_Army_in_Shanghai_1911.jpg/800px-Revolutionary_Army_in_Shanghai_1911.jpg",
+                year: "1911",
+                timeline: [
+                    { time: "10月22日", event: "湖南、陕西宣布独立" },
+                    { time: "10月29日", event: "山西宣布独立" },
+                    { time: "11月3日", event: "上海光复" },
+                    { time: "11月8日", event: "江苏宣布独立" },
+                    { time: "12月2日", event: "南京光复" }
+                ]
+            },
+            { 
+                title: "民国肇建", 
+                subtitle: "中华民国临时政府成立", 
+                content: "1912年1月1日，孙中山在南京就任中华民国临时大总统，宣告中华民国成立。临时政府颁布《临时约法》，确立了民主共和的政治体制，这是亚洲第一个民主共和国。",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Proclamation_of_the_Republic_of_China.jpg/800px-Proclamation_of_the_Republic_of_China.jpg",
+                year: "1912",
+                timeline: [
+                    { time: "1911年12月29日", event: "17省代表选举孙中山为临时大总统" },
+                    { time: "1912年1月1日", event: "孙中山宣誓就职，中华民国成立" },
+                    { time: "1912年2月12日", event: "清帝溥仪退位" },
+                    { time: "1912年3月11日", event: "《中华民国临时约法》颁布" }
+                ]
+            },
+            { 
+                title: "历史意义", 
+                subtitle: "辛亥革命的历史功绩", 
+                content: "辛亥革命推翻了统治中国两千多年的封建帝制，建立了亚洲第一个共和国，使民主共和观念深入人心。它开启了中国近代民族民主革命的新篇章，为中国的进步打开了闸门。",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Wuhan_1911_Revolution_Museum.jpg/800px-Wuhan_1911_Revolution_Museum.jpg",
+                year: "历史回响",
+                timeline: [
+                    { time: "政治制度", event: "结束了中国两千多年的封建君主专制制度" },
+                    { time: "思想解放", event: "使民主共和观念深入人心" },
+                    { time: "经济发展", event: "为民族资本主义发展创造了条件" },
+                    { time: "社会变革", event: "推动了社会风俗的革新与进步" }
+                ]
+            }
+        ];
+
+        // 系统状态
+        let currentPage = 0;
+        let isAnimating = false;
+        let showMenu = false;
+        let musicPlaying = false;
+
+        // DOM元素
+        const slideContainer = document.getElementById('slide-container');
+        const slideImage = document.getElementById('slide-image');
+        const slideTitle = document.getElementById('slide-title');
+        const slideSubtitle = document.getElementById('slide-subtitle');
+        const slideContent = document.getElementById('slide-content');
+        const slideCounter = document.getElementById('slide-counter');
+        const yearDisplay = document.getElementById('year-display');
+        const currentYear = document.getElementById('current-year');
+        const timelineContent = document.getElementById('timeline-content');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const menuToggle = document.getElementById('menu-toggle');
+        const sideMenu = document.getElementById('side-menu');
+        const closeMenu = document.getElementById('close-menu');
+        const slideMenu = document.getElementById('slide-menu');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicOn = document.getElementById('music-on');
+        const musicOff = document.getElementById('music-off');
+        const bgMusic = document.getElementById('bg-music');
+
+        // 初始化幻灯片
+        function initSlides() {
+            updateSlide();
+            createMenuItems();
+            
+            // 添加动画类
+            slideContainer.classList.add('slide-enter');
+            slideImage.classList.add('slide-image-enter');
+            slideContent.parentElement.parentElement.classList.add('slide-content-enter');
+        }
+
+        // 更新当前幻灯片
+        function updateSlide() {
+            const slide = slides[currentPage];
+            
+            // 设置内容
+            slideImage.src = slide.image;
+            slideTitle.textContent = slide.title;
+            slideSubtitle.textContent = slide.subtitle;
+            slideContent.textContent = slide.content;
+            slideCounter.textContent = `第 ${currentPage + 1} 章 / 共 ${slides.length} 章`;
+            yearDisplay.textContent = slide.year;
+            currentYear.textContent = slide.year.includes('年') ? slide.year.split('年')[0] : '';
+            
+            // 更新时间轴
+            updateTimeline(slide.timeline);
+            
+            // 更新按钮状态
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === slides.length - 1;
+            
+            // 重置动画类
+            resetAnimations();
+        }
+
+        // 更新时间轴内容
+        function updateTimeline(timeline) {
+            if (!timeline) {
+                timelineContent.classList.add('hidden');
+                return;
+            }
+            
+            timelineContent.innerHTML = '';
+            timeline.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'mb-4 timeline-marker';
+                div.innerHTML = `
+                    <div class="text-sm text-red-700 font-medium">${item.time}</div>
+                    <div class="text-gray-700">${item.event}</div>
+                `;
+                timelineContent.appendChild(div);
+            });
+            
+            timelineContent.classList.remove('hidden');
+        }
+
+        // 创建菜单项
+        function createMenuItems() {
+            slideMenu.innerHTML = '';
+            slides.forEach((slide, index) => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = `${index + 1}. ${slide.title} (${slide.year})`;
+                button.className = `w-full text-left px-4 py-3 rounded-md transition-all ${
+                    currentPage === index ? 'bg-red-900 text-white font-medium' : 'hover:bg-gray-800 text-gray-300'
+                }`;
+                button.addEventListener('click', () => goToSlide(index));
+                li.appendChild(button);
+                slideMenu.appendChild(li);
+            });
+        }
+
+        // 转到指定幻灯片
+        function goToSlide(index) {
+            if (isAnimating || index === currentPage) return;
+            
+            animateTransition(() => {
+                currentPage = index;
+                updateSlide();
+                showMenu = false;
+                sideMenu.classList.add('hidden');
+            });
+        }
+
+        // 上一页
+        function handlePrev() {
+            if (isAnimating || currentPage <= 0) return;
+            
+            animateTransition(() => {
+                currentPage--;
+                updateSlide();
+            });
+        }
+
+        // 下一页
+        function handleNext() {
+            if (isAnimating || currentPage >= slides.length - 1) return;
+            
+            animateTransition(() => {
+                currentPage++;
+                updateSlide();
+            });
+        }
+
+        // 动画过渡
+        function animateTransition(callback) {
+            isAnimating = true;
+            
+            // 移除所有动画类
+            slideContainer.classList.remove('slide-enter');
+            slideImage.classList.remove('slide-image-enter');
+            slideContent.parentElement.parentElement.classList.remove('slide-content-enter');
+            
+            // 添加淡出效果
+            slideContainer.style.opacity = '0';
+            slideContainer.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                callback();
+                
+                // 重置样式并添加动画类
+                slideContainer.style.opacity = '';
+                slideContainer.style.transform = '';
+                resetAnimations();
+                
+                isAnimating = false;
+            }, 500);
+        }
+
+        // 重置动画
+        function resetAnimations() {
+            // 移除所有动画类
+            slideContainer.classList.remove('slide-enter');
+            slideImage.classList.remove('slide-image-enter');
+            slideContent.parentElement.parentElement.classList.remove('slide-content-enter');
+            
+            // 强制重绘
+            void slideContainer.offsetWidth;
+            
+            // 重新添加动画类
+            slideContainer.classList.add('slide-enter');
+            slideImage.classList.add('slide-image-enter');
+            slideContent.parentElement.parentElement.classList.add('slide-content-enter');
+        }
+
+        // 切换音乐
+        function toggleMusic() {
+            musicPlaying = !musicPlaying;
+            
+            if (musicPlaying) {
+                bgMusic.play();
+                musicOn.classList.remove('hidden');
+                musicOff.classList.add('hidden');
+            } else {
+                bgMusic.pause();
+                musicOn.classList.add('hidden');
+                musicOff.classList.remove('hidden');
+            }
+        }
+
+        // 事件监听
+        prevBtn.addEventListener('click', handlePrev);
+        nextBtn.addEventListener('click', handleNext);
+        menuToggle.addEventListener('click', () => {
+            showMenu = !showMenu;
+            sideMenu.classList.toggle('hidden');
+        });
+        closeMenu.addEventListener('click', () => {
+            showMenu = false;
+            sideMenu.classList.add('hidden');
+        });
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') handleNext();
+            if (e.key === 'ArrowLeft') handlePrev();
+            if (e.key === 'Escape') {
+                showMenu = false;
+                sideMenu.classList.add('hidden');
+            }
+            if (e.key === 'm' || e.key === 'M') {
+                showMenu = !showMenu;
+                sideMenu.classList.toggle('hidden');
+            }
+        });
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', initSlides);
+        
+        // 预加载图片
+        window.addEventListener('load', () => {
+            slides.forEach(slide => {
+                const img = new Image();
+                img.src = slide.image;
+            });
+        });
+    </script>
+</body>
+</html>
