@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Fate Stay Night - 传奇再临</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: "Microsoft Yahei", sans-serif;
+            background: #000;
+            color: #fff;
+        }
+        #game-container {
+            position: relative;
+            width: 1200px;
+            height: 700px;
+            margin: 0 auto;
+            background: url('https://wallpapercave.com/wp/wp2568874.jpg ') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .character {
+            position: absolute;
+            bottom: 0;
+            width: 300px;
+            height: auto;
+            transition: all 0.3s ease-in-out;
+        }
+        #saber, #archer, #rin, #shirou, #caster, #berserker {
+            display: none;
+        }
+        #saber { right: 0; }
+        #archer { left: 0; }
+        #rin { left: 150px; }
+        #shirou { right: 150px; }
+        #caster { left: 0; }
+        #berserker { right: 0; }
+        
+        #dialogue-box {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(0,0,0,0.7);
+            border-top: 2px solid #fff;
+        }
+        #battle-log {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            font-size: 14px;
+        }
+        .choices {
+            margin-top: 10px;
+        }
+        .choice-button {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            padding: 10px 20px;
+            background: #8B0000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+        .choice-button:hover {
+            background: #A52A2A;
+            transform: scale(1.05);
+        }
+        #stats {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .damage-popup {
+            position: absolute;
+            color: red;
+            font-weight: bold;
+            animation: damageAnim 1s ease-out;
+        }
+        @keyframes damageAnim {
+            0% { transform: translate(0, 0); opacity: 1; }
+            100% { transform: translate(-20px, -50px); opacity: 0; }
+        }
+        #map {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <img id="saber" src="https://i.pinimg.com/736x/8b/25/01/8b25018c6a93e5ba4192f4a853ad51e5.jpg " alt="Saber">
+        <img id="archer" src="https://i.pinimg.com/736x/f7/aa/94/f7aa9483405258d2429e56e1506502c1.jpg " alt="Archer">
+        <img id="rin" src="https://i.pinimg.com/736x/0f/44/84/0f448455236f2a509d7fe60f303a2f45.jpg " alt="Rin">
+        <img id="shirou" src="https://i.pinimg.com/736x/ce/4c/3c/ce4c3c6cf944c3363f84a68896f9e8b7.jpg " alt="Shirou">
+        <img id="caster" src="https://i.pinimg.com/736x/02/4b/7d/024b7d5f2b0c7b2821e115259a5bfa5e.jpg " alt="Caster">
+        <img id="berserker" src="https://i.pinimg.com/736x/3b/2a/9d/3b2a9d7205b6a3e10f8a7e685f51e8c1.jpg " alt="Berserker">
+        
+        <div id="dialogue-box">
+            <div id="dialogue-text"></div>
+            <div id="battle-log"></div>
+            <div class="choices" id="choices"></div>
+        </div>
+        
+        <div id="stats">
+            <div>生命值: <span id="hp">100</span>/100</div>
+            <div>魔力值: <span id="mp">50</span>/50</div>
+            <div>攻击力: <span id="atk">20</span></div>
+            <div>防御力: <span id="def">10</span></div>
+        </div>
+        
+        <div id="map">
+            <div>当前地点: <span id="location">冬木市街区</span></div>
+        </div>
+    </div>
+
+    <audio id="sword-sound" src="https://www.soundjay.com/human/sounds/sword-swing-01.mp3 "></audio>
+    <audio id="music" src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Videos/Sarah_Teibo/EP_-_The_Elements/Sarah_Teibo_-_04_-_Battle.mp3 " loop></audio>
+
+    <script>
+        const dialogueData = {
+            start: {
+                text: "午夜时分，冬木市的街道传来神秘的钟声...圣杯战争即将再次开始",
+                choices: [
+                    { text: "前往钟声方向探索", next: "scene1", effect: { location: "钟楼废墟" } },
+                    { text: "拜访远坂家寻求情报", next: "rin_meet" },
+                    { text: "在街角发现神秘卷轴", next: "scroll_discovery" }
+                ],
+                show: ["saber"]
+            },
+            scene1: {
+                text: "在废弃的钟楼前，突然遭遇敌方从者",
+                choices: [
+                    { text: "召唤Saber进行战斗", next: "combat1" },
+                    { text: "使用魔力隐身观察", next: "stealth_observation", condition: "mp >= 20" }
+                ],
+                show: ["saber", "berserker"]
+            },
+            combat1: {
+                text: "战斗开始！选择你的行动：",
+                choices: [
+                    { text: "普通攻击", action: "attack" },
+                    { text: "使用宝具（消耗20MP）", action: "noble_phantasm", cost: 20 },
+                    { text: "防御", action: "defend" },
+                    { text: "使用药水（+30HP）", action: "use_potion" }
+                ]
+            },
+            stealth_observation: {
+                text: "发现敌方正在举行黑暗仪式...似乎在召唤什么",
+                choices: [
+                    { text: "打断仪式发起突袭", next: "combat1" },
+                    { text: "继续跟踪观察", next: "follow_enemy" }
+                ]
+            },
+            follow_enemy: {
+                text: "跟踪敌人来到柳洞寺区域，发现更多阴谋...",
+                choices: [
+                    { text: "联系远坂协助作战", next: "rin_join", condition: "rin_alliance" },
+                    { text: "独自深入调查", next: "dangerous_path" }
+                ]
+            },
+            rin_meet: {
+                text: "远坂凛：看来你也察觉到了异常。我们需要暂时合作...",
+                choices: [
+                    { text: "接受合作提议", next: "rin_alliance", effect: { show: ["saber", "rin"], rin_alliance: true, atk: 30 } },
+                    { text: "拒绝合作独自行动", next: "start" }
+                ]
+            },
+            scroll_discovery: {
+                text: "你发现了古老的契约卷轴，获得新能力：誓约胜利之剑（需80MP）",
+                choices: [
+                    { text: "学习高级技能", next: "learn_skill", effect: { hasExcalibur: true } },
+                    { text: "将其封印保存", next: "start" }
+                ]
+            },
+            learn_skill: {
+                text: "你掌握了终极奥义！但需要时间积蓄魔力",
+                choices: [{ text: "返回战场", next: "start" }]
+            },
+            dangerous_path: {
+                text: "遭遇Caster的傀儡大军！",
+                choices: [
+                    { text: "召唤Saber正面突破", next: "combat2" },
+                    { text: "寻找魔法阵弱点", next: "find_weakness" }
+                ],
+                show: ["saber", "caster"]
+            },
+            combat2: {
+                text: "新的战斗开始！",
+                choices: [
+                    { text: "普通攻击", action: "attack" },
+                    { text: "使用宝具", action: "noble_phantasm", cost: 20 },
+                    { text: "发动契约胜利之剑", action: "excalibur", cost: 80, condition: "hasExcalibur && mp >= 80" }
+                ]
+            },
+            final_battle: {
+                text: "最终圣杯显现！但被污染的Saber Alter突然降临",
+                choices: [
+                    { text: "集结全部力量决战", next: "final_combat" },
+                    { text: "尝试净化圣杯", next: "purify_quest" }
+                ],
+                show: ["saber", "archer", "berserker"]
+            },
+            final_combat: {
+                text: "最终决战！全员参战模式",
+                choices: [
+                    { text: "联合攻击", action: "united_attack" },
+                    { text: "掩护撤退制定战术", action: "tactical_retreat" }
+                ]
+            }
+        };
+
+        let currentState = "start";
+        let hp = 100;
+        let mp = 50;
+        let atk = 20;
+        let def = 10;
+        let enemyHp = 150;
+        let isDefending = false;
+        let location = "冬木市街区";
+        let hasExcalibur = false;
+        let rinAlliance = false;
+
+        const dialogueBox = document.getElementById('dialogue-text');
+        const choicesContainer = document.getElementById('choices');
+        const battleLog = document.getElementById('battle-log');
+        const hpDisplay = document.getElementById('hp');
+        const mpDisplay = document.getElementById('mp');
+        const atkDisplay = document.getElementById('atk');
+        const defDisplay = document.getElementById('def');
+        const locationDisplay = document.getElementById('location');
+        const swordSound = document.getElementById('sword-sound');
+        const music = document.getElementById('music');
+
+        function logMessage(message) {
+            const logEntry = document.createElement('div');
+            logEntry.textContent = message;
+            battleLog.appendChild(logEntry);
+            battleLog.scrollTop = battleLog.scrollHeight;
+        }
+
+        function createDamagePopup(value, target) {
+            const popup = document.createElement('div');
+            popup.className = 'damage-popup';
+            popup.textContent = `-${value}`;
+            popup.style.left = target === 'enemy' ? '600px' : '200px';
+            popup.style.top = '200px';
+            document.getElementById('game-container').appendChild(popup);
+            
+            setTimeout(() => popup.remove(), 1000);
+        }
+
+        function updateDisplay() {
+            const state = dialogueData[currentState];
+            dialogueBox.textContent = state.text;
+            
+            // 更新角色显示状态
+            ['saber', 'archer', 'rin', 'shirou', 'caster', 'berserker'].forEach(id => {
+                document.getElementById(id).style.display = 
+                    state.show && state.show.includes(id) ? 'block' : 'none';
+            });
+
+            // 更新选项按钮
+            choicesContainer.innerHTML = "";
+            state.choices?.forEach(choice => {
+                if (!choice.condition || eval(choice.condition)) {
+                    const button = document.createElement('button');
+                    button.className = "choice-button";
+                    button.textContent = choice.text;
+                    button.onclick = () => handleChoice(choice);
+                    choicesContainer.appendChild(button);
+                }
+            });
+
+            // 更新状态数值
+            hpDisplay.textContent = hp;
+            mpDisplay.textContent = mp;
+            atkDisplay.textContent = atk;
+            defDisplay.textContent = def;
+            locationDisplay.textContent = location;
+        }
+
+        function handleChoice(choice) {
+            if (choice.effect) {
+                if (choice.effect.location) location = choice.effect.location;
+                if (choice.effect.atk) atk = choice.effect.atk;
+                if (choice.effect.def) def = choice.effect.def;
+                if (choice.effect.rin_alliance) rinAlliance = true;
+            }
+
+            if (choice.action) {
+                switch(choice.action) {
+                    case "attack":
+                        const playerDamage = Math.floor(Math.random() * atk) + 5;
+                        enemyHp -= playerDamage;
+                        swordSound.currentTime = 0;
+                        swordSound.play();
+                        createDamagePopup(playerDamage, "enemy");
+                        logMessage(`造成${playerDamage}点伤害！敌人剩余HP：${Math.max(0, enemyHp)}`);
+                        
+                        if (enemyHp <= 0) {
+                            logMessage("敌人被击败！");
+                            currentState = "start";
+                            enemyHp = 150;
+                            mp = Math.min(50, mp + 10);
+                            updateDisplay();
+                            return;
+                        }
+                        
+                        enemyTurn();
+                        break;
+                        
+                    case "noble_phantasm":
+                        if (mp >= choice.cost) {
+                            mp -= choice.cost;
+                            const npDamage = Math.floor(Math.random() * (atk * 2)) + 30;
+                            enemyHp -= npDamage;
+                            createDamagePopup(npDamage, "enemy");
+                            logMessage(`发动宝具造成${npDamage}点伤害！敌人剩余HP：${Math.max(0, enemyHp)}`);
+                            
+                            if (enemyHp <= 0) {
+                                logMessage("敌人被击败！");
+                                currentState = "start";
+                                enemyHp = 150;
+                                mp = Math.min(50, mp + 5);
+                                updateDisplay();
+                                return;
+                            }
+                            
+                            enemyTurn();
+                        } else {
+                            alert("MP不足！");
+                        }
+                        break;
+                        
+                    case "excalibur":
+                        if (mp >= choice.cost && hasExcalibur) {
+                            mp -= choice.cost;
+                            const excaliburDamage = Math.floor(Math.random() * (atk * 3)) + 50;
+                            enemyHp -= excaliburDamage;
+                            createDamagePopup(excaliburDamage, "enemy");
+                            logMessage(`誓约胜利之剑造成${excaliburDamage}点伤害！敌人剩余HP：${Math.max(0, enemyHp)}`);
+                            
+                            if (enemyHp <= 0) {
+                                logMessage("敌人被彻底消灭！");
+                                currentState = "final_battle";
+                                enemyHp = 150;
+                                updateDisplay();
+                                return;
+                            }
+                            
+                            enemyTurn();
+                        } else {
+                            alert("条件不足无法发动！");
+                        }
+                        break;
+                        
+                    case "defend":
+                        isDefending = true;
+                        logMessage("进入防御状态，受到伤害减少50%");
+                        enemyTurn();
+                        break;
+                        
+                    case "use_potion":
+                        hp = Math.min(100, hp + 30);
+                        logMessage("使用药水回复30HP");
+                        enemyTurn();
+                        break;
+                        
+                    case "united_attack":
+                        const unitedDmg = Math.floor(Math.random() * (atk * 2)) + 40;
+                        enemyHp -= unitedDmg;
+                        logMessage(`联合攻击造成${unitedDmg}点伤害！`);
+                        if (enemyHp <= 0) {
+                            logMessage("圣杯战争胜利！");
+                            currentState = "ending_good";
+                            updateDisplay();
+                        }
+                        break;
+                }
+            }
+            
+            if (choice.next) {
+                currentState = choice.next;
+            }
+            
+            updateDisplay();
+        }
+
+        function enemyTurn() {
+            setTimeout(() => {
+                const enemyAttack = Math.floor(Math.random() * 20) + 15;
+                const damage = isDefending ? Math.floor(enemyAttack * 0.5) : enemyAttack;
+                hp = Math.max(0, hp - damage);
+                isDefending = false;
+                
+                createDamagePopup(damage, "player");
+                logMessage(`敌人攻击！造成${damage}点伤害！你剩余HP：${hp}`);
+                
+                if (hp <= 0) {
+                    logMessage("你被击败了...");
+                    currentState = "game_over";
+                    hp = 100;
+                    mp = 50;
+                    enemyHp = 150;
+                }
+                
+                updateDisplay();
+            }, 1000);
+        }
+
+        // 初始化游戏
+        updateDisplay();
+        
+        // 自动播放背景音乐
+        window.addEventListener('click', () => {
+            if (!music.src) return;
+            music.play().catch(e => console.log("Music play failed:", e));
+        });
+    </script>
+</body>
+</html>
