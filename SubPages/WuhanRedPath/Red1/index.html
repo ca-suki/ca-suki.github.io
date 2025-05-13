@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武汉红色寻访心得与体会</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        body {
+            background-color: #111827;
+            color: white;
+            min-height: 100vh;
+        }
+        .slide-content {
+            transition: all 0.3s ease;
+        }
+        .slide-content.animating {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .slide-content.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white flex flex-col">
+    <!-- 标题栏 -->
+    <header class="bg-red-900 py-4 px-6 shadow-lg relative">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23fff\' fill-opacity=\'0.05\' transform=\'translate(1 1)\'%3E%3Crect x=\'0\' y=\'0\' width=\'4\' height=\'4\' rx=\'1\'/%3E%3Crect x=\'10\' y=\'0\' width=\'4\' height=\'4\' rx=\'1\'/%3E%3Crect x=\'0\' y=\'10\' width=\'4\' height=\'4\' rx=\'1\'/%3E%3Crect x=\'10\' y=\'10\' width=\'4\' height=\'4\' rx=\'1\'/%3E%3C/g%3E%3C/svg%3E')"></div>
+        <h1 class="text-2xl font-bold z-10 relative">武汉红色寻访心得与体会</h1>
+        <p class="text-sm text-red-200 mt-1 italic">辛亥革命博物馆深度参访纪实</p>
+        <button id="menu-toggle" class="absolute right-6 top-1/2 transform -translate-y-1/2 text-white hover:text-red-200 transition-colors" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- 侧边菜单 -->
+    <div id="side-menu" class="hidden fixed inset-0 bg-black bg-opacity-75 z-20 flex justify-end">
+        <div class="w-64 bg-red-900 min-h-full p-4 animate-slideIn">
+            <h2 class="text-xl font-bold mb-4 border-b border-red-700 pb-2">目录导航</h2>
+            <ul class="space-y-2" id="slide-menu">
+                <!-- Menu items will be added by JavaScript -->
+            </ul>
+            <button id="close-menu" class="absolute top-4 left-4 p-2 rounded-full bg-red-800 hover:bg-red-700 transition-colors" aria-label="Close menu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主体内容区域 -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div id="slide-container" class="slide-content w-full max-w-4xl">
+            <div class="bg-white rounded-lg overflow-hidden shadow-2xl border-2 border-red-900">
+                <div class="relative">
+                    <img id="slide-image" src="" alt="Slide" class="w-full h-64 object-cover">
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4">
+                        <span id="slide-counter" class="text-red-500 text-sm font-semibold"></span>
+                    </div>
+                </div>
+                <div class="p-6 bg-gradient-to-br from-red-50 to-pink-50">
+                    <h2 id="slide-title" class="text-2xl font-bold text-red-900 mb-3 border-l-4 border-red-600 pl-3"></h2>
+                    <h3 id="slide-subtitle" class="text-lg text-red-700 mb-4 italic"></h3>
+                    <p id="slide-content" class="text-gray-800 leading-relaxed tracking-wide"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 控制按钮 -->
+    <footer class="bg-red-900 py-4 px-6 flex justify-between items-center shadow-inner">
+        <button id="prev-btn" class="px-5 py-2 rounded-md transition-all transform hover:-translate-y-0.5 bg-red-800 hover:bg-red-700 text-white shadow-md hover:shadow-lg">
+            上一页
+        </button>
+        <button id="next-btn" class="px-5 py-2 rounded-md transition-all transform hover:-translate-y-0.5 bg-red-800 hover:bg-red-700 text-white shadow-md hover:shadow-lg">
+            下一页
+        </button>
+    </footer>
+
+    <!-- 快捷提示 -->
+    <div class="fixed bottom-4 right-4 bg-black bg-opacity-50 text-xs text-gray-300 px-3 py-1 rounded-full hidden md:block">
+        ← → 键切换页面 | M 键打开目录
+    </div>
+
+    <script>
+        // 精选25页高质量内容
+        const slides = [
+            { title: "觉醒", subtitle: "在历史现场感受信仰的力量", content: "站在辛亥革命博物馆里，我突然明白了什么是'虽千万人吾往矣'的勇气。那些泛黄的照片、斑驳的文物，都在诉说着百年前一群年轻人为民族存亡而战的故事。", image: "https://picsum.photos/800/450?random=1" },
+            { title: "震撼", subtitle: "第一展厅的视觉冲击", content: "一进门就被巨大的浮雕墙震撼。那些深深刻画的面孔，有学生、有工人、有军人，他们的眼神中透着坚定。这一刻，历史不再是课本上的文字，而是鲜活的生命。", image: "https://picsum.photos/800/450?random=2" },
+            { title: "凝视", subtitle: "与历史人物的对话", content: "看着孙中山先生的手稿，字迹遒劲有力。'革命尚未成功，同志仍须努力'这十二个字仿佛穿越时空，在耳边回响。是什么让这些人甘愿抛头颅洒热血？", image: "https://picsum.photos/800/450?random=3" },
+            { title: "抉择", subtitle: "生死关头的选择", content: "看到黄兴使用过的手枪，思绪万千。1911年的那个夜晚，扣动扳机意味着什么？不是英雄主义的浪漫，而是对民族未来的全部托付。", image: "https://picsum.photos/800/450?random=4" },
+            { title: "温度", subtitle: "一封家书的启示", content: "玻璃展柜里的一封家书让我驻足：'儿已决意投身革命，若成，则万民得福；不成，则自家不幸。望母亲见谅。'字迹有些晕染，不知是墨迹还是泪水。", image: "https://picsum.photos/800/450?random=5" },
+            { title: "青春", subtitle: "百年前的同龄人", content: "发现很多起义者和我们年龄相仿。20岁的新军士兵，19岁的学生志愿者...他们在最好的年华选择了一条荆棘之路。今天的我们，又在为什么奋斗？", image: "https://picsum.photos/800/450?random=6" },
+            { title: "细节", subtitle: "被忽视的历史密码", content: "注意到一件破旧的学生制服，袖口有修补痕迹。正是这些看似普通的衣物，见证了武昌街头的第一声呐喊。平凡造就非凡，微光汇聚星火。", image: "https://picsum.photos/800/450?random=7" },
+            { title: "传承", subtitle: "跨越时空的精神接力", content: "抚摸展馆结尾处的留言簿，最新一页写着：'爷爷，您当年参加过武昌起义，今天我来了。您的信仰，我们记着。'", image: "https://picsum.photos/800/450?random=8" },
+            { title: "对比", subtitle: "两个时代的青年对话", content: "想到自己每天刷手机获取信息，而当年的人们冒着生命危险传递一张张传单。获取知识的方式变了，但追求真理的心应该始终如一。", image: "https://picsum.photos/800/450?random=9" },
+            { title: "反思", subtitle: "成功的代价", content: "数字显示武昌起义伤亡人数：3000+。每个数字背后都是鲜活的生命。胜利从来不易，我们要以更敬畏的心态对待今天的和平生活。", image: "https://picsum.photos/800/450?random=10" },
+            { title: "共鸣", subtitle: "展览中的泪点时刻", content: "多媒体重现就义场景时，周围参观者自发鼓掌。这不是表演，是对崇高精神的致敬。那一刻，我理解了什么是民族魂。", image: "https://picsum.photos/800/450?random=11" },
+            { title: "触动", subtitle: "一位老者的身影", content: "看见白发老人在展品前深深鞠躬，颤抖的手抚过防护栏。他可能不是在祭奠某个人，而是在缅怀那个时代所有不屈的灵魂。", image: "https://picsum.photos/800/450?random=12" },
+            { title: "震撼", subtitle: "全景影像的冲击", content: "环形影院播放起义全过程，炮火声响起时，身边的小孩本能地躲进母亲怀里。这个动作，和百年前的孩子多么相似。", image: "https://picsum.photos/800/450?random=13" },
+            { title: "顿悟", subtitle: "关于牺牲的理解", content: "以前觉得牺牲很遥远，现在明白：每一次坚持正义、每一份坚守初心，都是日常的牺牲。真正的革命精神就在点滴之中。", image: "https://picsum.photos/800/450?random=14" },
+            { title: "连接", subtitle: "过去与现在的桥梁", content: "扫描二维码看到VR重现场景，科技让历史更鲜活。传统与现代的碰撞中，红色文化找到了新的传播方式。", image: "https://picsum.photos/800/450?random=15" },
+            { title: "责任", subtitle: "新时代的使命", content: "走出博物馆，阳光正好。想起展厅里那句'少年强则国强'。今天的我们，要用怎样的行动诠释这句话的时代意义？", image: "https://picsum.photos/800/450?random=16" },
+            { title: "思考", subtitle: "历史的另一种可能", content: "如果当年没有那声枪响，中国会怎样？这个假设让我们更珍惜当下的发展成果，也更懂得改革的必要性。", image: "https://picsum.photos/800/450?random=17" },
+            { title: "感动", subtitle: "最难忘的展品", content: "一双磨破的布鞋令我久久驻足。它的主人走了多少路才到达战场？这双鞋丈量的不只是距离，更是信念的长度。", image: "https://picsum.photos/800/450?random=18" },
+            { title: "启发", subtitle: "给当代青年的启示", content: "在物质丰富的今天，我们需要找回那种纯粹的理想主义。不是要重走战火之路，而是要保持向善向上的心。", image: "https://picsum.photos/800/450?random=19" },
+            { title: "承诺", subtitle: "写给自己的信", content: "在互动区写下承诺：'我要用专业所学服务社会，让先烈们的牺牲不被辜负。'这份承诺，将伴随我的职业生涯。", image: "https://picsum.photos/800/450?random=20" },
+            { title: "力量", subtitle: "走出博物馆的感受", content: "离开时脚步格外有力。历史告诉我们：改变从不是由伟人创造的，而是无数普通人的坚持。每个人都可以成为进步的支点。", image: "https://picsum.photos/800/450?random=21" },
+            { title: "延续", subtitle: "红色教育的新形式", content: "看到孩子们通过AR技术'亲历'历史，感到欣慰。这种沉浸式体验让红色教育不再枯燥，而是充满吸引力。", image: "https://picsum.photos/800/450?random=22" },
+            { title: "行动", subtitle: "我们的实践计划", content: "团队决定开展社区宣讲。要把在博物馆获得的感悟分享给更多人，让红色精神真正落地生根。", image: "https://picsum.photos/800/450?random=23" },
+            { title: "升华", subtitle: "一次心灵的洗礼", content: "这不是普通的参观，而是一次精神的重生。那些沉睡的文物唤醒了我们内心深处的责任感，提醒着我们永远不能忘记来时的路。", image: "https://picsum.photos/800/450?random=24" },
+            { title: "启程", subtitle: "带着使命再出发", content: "合上笔记本，我知道这不仅是参观的结束，更是新征程的开始。红色基因需要代代相传，而我们，就是最好的载体。", image: "https://picsum.photos/800/450?random=25" }
+        ];
+
+        let currentPage = 1;
+        let isAnimating = false;
+        let showMenu = false;
+
+        // DOM elements
+        const slideContainer = document.getElementById('slide-container');
+        const slideImage = document.getElementById('slide-image');
+        const slideTitle = document.getElementById('slide-title');
+        const slideSubtitle = document.getElementById('slide-subtitle');
+        const slideContent = document.getElementById('slide-content');
+        const slideCounter = document.getElementById('slide-counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const menuToggle = document.getElementById('menu-toggle');
+        const sideMenu = document.getElementById('side-menu');
+        const closeMenu = document.getElementById('close-menu');
+        const slideMenu = document.getElementById('slide-menu');
+
+        // Initialize the slides
+        function initSlides() {
+            updateSlide();
+            createMenuItems();
+        }
+
+        // Update the current slide
+        function updateSlide() {
+            const slide = slides[currentPage - 1];
+            slideImage.src = slide.image;
+            slideTitle.textContent = slide.title;
+            slideSubtitle.textContent = slide.subtitle;
+            slideContent.textContent = slide.content;
+            slideCounter.textContent = `第 ${currentPage} 页 / 共 ${slides.length} 页`;
+
+            // Update button states
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === slides.length;
+
+            if (currentPage === 1) {
+                prevBtn.classList.add('bg-red-800', 'text-red-400', 'cursor-not-allowed');
+                prevBtn.classList.remove('hover:bg-red-700', 'text-white');
+            } else {
+                prevBtn.classList.remove('bg-red-800', 'text-red-400', 'cursor-not-allowed');
+                prevBtn.classList.add('hover:bg-red-700', 'text-white');
+            }
+
+            if (currentPage === slides.length) {
+                nextBtn.classList.add('bg-red-800', 'text-red-400', 'cursor-not-allowed');
+                nextBtn.classList.remove('hover:bg-red-700', 'text-white');
+            } else {
+                nextBtn.classList.remove('bg-red-800', 'text-red-400', 'cursor-not-allowed');
+                nextBtn.classList.add('hover:bg-red-700', 'text-white');
+            }
+        }
+
+        // Create menu items
+        function createMenuItems() {
+            slideMenu.innerHTML = '';
+            slides.forEach((slide, index) => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = `第${index + 1}页：${slide.title}`;
+                button.className = `w-full text-left px-4 py-2 rounded-md transition-all ${
+                    currentPage === index + 1 ? 'bg-red-700 text-white font-medium' : 'hover:bg-red-800 text-red-100'
+                }`;
+                button.addEventListener('click', () => goToSlide(index));
+                li.appendChild(button);
+                slideMenu.appendChild(li);
+            });
+        }
+
+        // Handle next slide
+        function handleNext() {
+            if (isAnimating || currentPage >= slides.length) return;
+            animateTransition(() => {
+                currentPage++;
+                updateSlide();
+            });
+        }
+
+        // Handle previous slide
+        function handlePrev() {
+            if (isAnimating || currentPage <= 1) return;
+            animateTransition(() => {
+                currentPage--;
+                updateSlide();
+            });
+        }
+
+        // Go to specific slide
+        function goToSlide(index) {
+            if (isAnimating) return;
+            animateTransition(() => {
+                currentPage = index + 1;
+                showMenu = false;
+                sideMenu.classList.add('hidden');
+                updateSlide();
+            });
+        }
+
+        // Animate transition between slides
+        function animateTransition(callback) {
+            isAnimating = true;
+            slideContainer.classList.add('animating');
+            slideContainer.classList.remove('active');
+            
+            setTimeout(() => {
+                callback();
+                slideContainer.classList.remove('animating');
+                slideContainer.classList.add('active');
+                isAnimating = false;
+            }, 300);
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', handlePrev);
+        nextBtn.addEventListener('click', handleNext);
+        menuToggle.addEventListener('click', () => {
+            showMenu = !showMenu;
+            sideMenu.classList.toggle('hidden');
+        });
+        closeMenu.addEventListener('click', () => {
+            showMenu = false;
+            sideMenu.classList.add('hidden');
+        });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') handleNext();
+            if (e.key === 'ArrowLeft') handlePrev();
+            if (e.key === 'Escape') {
+                showMenu = false;
+                sideMenu.classList.add('hidden');
+            }
+            if (e.key === 'm' || e.key === 'M') {
+                showMenu = !showMenu;
+                sideMenu.classList.toggle('hidden');
+            }
+        });
+
+        // Initialize the app
+        window.addEventListener('DOMContentLoaded', initSlides);
+    </script>
+</body>
+</html>
