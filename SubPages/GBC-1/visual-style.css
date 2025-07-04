@@ -1,0 +1,113 @@
+:root {
+  /* 配色系统 */
+  --primary-green: #5DB075;    /* 青柠绿 - 主要按钮/重要状态 */
+  --secondary-green: #A0E4CB;  /* 薄荷绿 - 辅助色 */
+  --bg-color: #F7F6F2;         /* 背景色 */
+  --divider: #D9D9D9;          /* 分割线 */
+  --text-primary: #333333;     /* 正文文字 */
+  
+  /* 状态色 */
+  --status-healthy: #5DB075;   /* 健康状态 */
+  --status-warning: #FFC107;   /* 预警状态 */
+  --status-danger: #FF6B6B;    /* 危险状态 */
+  
+  /* 字体设置 */
+  --font-family: 'HarmonyOS Sans', 'SF Pro Display', 'PingFang SC', sans-serif;
+  --font-title: 600 18px/1.4 var(--font-family);
+  --font-body: 400 14px/1.5 var(--font-family);
+  --font-caption: 300 12px/1.5 var(--font-family);
+  
+  /* 阴影效果 */
+  --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-button: 0 2px 4px rgba(0, 0, 0, 0.15);
+  --shadow-button-pressed: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* 2.5D 元素的共享样式 */
+.element-2-5d {
+  transform: perspective(800px) rotateX(15deg);
+  box-shadow: var(--shadow-card);
+}
+
+/* 全局容器设置，禁止滚动 */
+html, body {
+  overflow: hidden;
+  background-color: var(--bg-color);
+  font-family: var(--font-family);
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+.app-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* 卡片样式 */
+.card {
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  position: relative;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.7); /* 顶部高光效果 */
+}
+
+/* 按钮样式 */
+.button {
+  border-radius: 8px;
+  border: none;
+  background-color: var(--primary-green);
+  color: white;
+  padding: 12px 24px;
+  font-weight: 600;
+  box-shadow: var(--shadow-button);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button:active {
+  transform: scale(0.9);
+  box-shadow: var(--shadow-button-pressed);
+}
+
+/* 浮动操作按钮 */
+.fab {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--primary-green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: var(--shadow-button);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.fab:active {
+  transform: scale(0.9);
+  box-shadow: var(--shadow-button-pressed);
+}
+
+/* 页面过渡效果 */
+.page-transition {
+  transition: transform 0.3s ease-out;
+}
