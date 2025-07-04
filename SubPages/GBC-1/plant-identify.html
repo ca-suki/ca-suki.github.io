@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>植物识别 - AI绿植养护助手</title>
+  <link rel="stylesheet" href="visual-style.css">
+  <style>
+    .identify-page {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: #000;
+    }
+    
+    .camera-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px;
+      color: white;
+    }
+    
+    .back-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+    }
+    
+    .viewfinder-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .viewfinder {
+      width: 80%;
+      aspect-ratio: 3/4;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.7);
+    }
+    
+    .scanning-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--primary-green);
+      animation: scanning 2s infinite;
+      border-radius: 2px;
+    }
+    
+    @keyframes scanning {
+      0% { top: 0; }
+      50% { top: calc(100% - 4px); }
+      100% { top: 0; }
+    }
+    
+    .camera-tip {
+      color: white;
+      text-align: center;
+      margin-top: 24px;
+      font: var(--font-caption);
+    }
+    
+    .camera-controls {
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .capture-button {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .capture-button::after {
+      content: '';
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      position: absolute;
+    }
+    
+    /* 识别中状态 */
+    .processing-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      color: white;
+    }
+    
+    .progress-container {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    
+    .water-drop {
+      width: 120px;
+      height: 120px;
+      border-radius: 50% 50% 50% 0;
+      background-color: var(--primary-green);
+      transform: rotate(-45deg);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(93, 176, 117, 0.5);
+    }
+    
+    .water-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.3);
+      animation: fill-water 3s ease-in-out forwards;
+    }
+    
+    @keyframes fill-water {
+      from { height: 0; }
+      to { height: 100%; }
+    }
+    
+    .processing-text {
+      font: var(--font-body);
+      margin-top: 16px;
+    }
+    
+    /* 识别结果 */
+    .result-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--bg-color);
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+    }
+    
+    .result-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .result-content {
+      flex: 1;
+      display: flex;
+      padding: 16px;
+    }
+    
+    .result-plant-image {
+      width: 140px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      transform: perspective(800px) rotateX(15deg);
+      box-shadow: var(--shadow-card);
+      margin-right: 16px;
+    }
+    
+    .result-plant-info {
+      flex: 1;
+    }
+    
+    .result-plant-name {
+      font: var(--font-title);
+      margin-bottom: 8px;
+    }
+    
+    .result-plant-scientific {
+      font: var(--font-caption);
+      color: #666;
+      margin-bottom: 16px;
+    }
+    
+    .difficulty-stars {
+      display: flex;
+      margin-bottom: 16px;
+    }
+    
+    .star {
+      color: #FFC107;
+      margin-right: 2px;
+    }
+    
+    .care-advice {
+      background-color: var(--status-warning);
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font: var(--font-body);
+      margin-top: 16px;
+    }
+    
+    .result-actions {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .action-button {
+      flex: 1;
+      margin: 0 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="identify-page">
+      <!-- 相机界面 -->
+      <div class="camera-header">
+        <button class="back-button" onclick="history.back()">&larr;</button>
+        <div class="camera-title">植物识别</div>
+        <div style="width: 24px;"></div>
+      </div>
+      
+      <div class="viewfinder-container">
+        <div class="viewfinder">
+          <video id="cameraFeed" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></video>
+          <div class="scanning-animation"></div>
+        </div>
+        <p class="camera-tip">对准植物并保持光线充足</p>
+      </div>
+      
+      <div class="camera-controls">
+        <div class="capture-button" id="captureBtn"></div>
+      </div>
+      
+      <!-- 识别中状态 (隐藏) -->
+      <div class="processing-overlay" id="processingOverlay" style="display: none;">
+        <div class="progress-container">
+          <div class="water-drop">
+            <div class="water-fill"></div>
+          </div>
+        </div>
+        <div class="processing-text">正在识别植物...</div>
+      </div>
+      
+      <!-- 识别结果 (隐藏) -->
+      <div class="result-overlay" id="resultOverlay" style="display: none;">
+        <div class="result-header">
+          <button class="back-button" style="color: #333;" onclick="backToCamera()">&larr;</button>
+          <div style="font-weight: 600;">识别结果</div>
+          <div style="width: 24px;"></div>
+        </div>
+        
+        <div class="result-content">
+          <img src="assets/plants/monstera.jpg" alt="植物图片" class="result-plant-image">
+          
+          <div class="result-plant-info">
+            <h2 class="result-plant-name">龙血树属-槟榔青</h2>
+            <p class="result-plant-scientific">Dracaena reflexa Lam.</p>
+            
+            <div>养护难度:</div>
+            <div class="difficulty-stars">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star" style="color: #DDD;">★</span>
+              <span class="star" style="color: #DDD;">★</span>
+            </div>
+            
+            <div class="care-advice">
+              养护建议: 龙血树属植物适合室内养护，喜欢明亮的散射光。这株龙血树整体状态良好，但需要注意叶片下垂的问题，以及分叉过多的情况。通过调整光照、合理浇水、定期施肥和适当修剪，可以进一步提升其生长状态和观赏价值。继续保持良好的养护习惯，这株龙血树会更加茁壮成长！
+            </div>
+          </div>
+        </div>
+        
+        <div class="result-actions">
+          <button class="button action-button">添加到我的植物</button>
+          <button class="button action-button" style="background-color: #888;">重新识别</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const captureBtn = document.getElementById('captureBtn');
+      const processingOverlay = document.getElementById('processingOverlay');
+      const resultOverlay = document.getElementById('resultOverlay');
+      const videoElement = document.getElementById('cameraFeed');
+      const resultImage = document.querySelector('.result-plant-image');
+
+      let stream = null;
+      let capturedImage = null;
+
+      // 初始化摄像头
+      async function initCamera() {
+        try {
+          // 请求摄像头权限，优先使用后置摄像头
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: { ideal: 'environment' }, // 优先使用后置摄像头
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
+            },
+            audio: false
+          });
+
+          // 将视频流连接到video元素
+          videoElement.srcObject = stream;
+
+          // 添加摄像头切换按钮
+          addCameraSwitchButton();
+
+          console.log('摄像头初始化成功');
+        } catch (err) {
+          console.error('摄像头初始化失败:', err);
+          alert('无法访问您的摄像头，请确保已授予摄像头访问权限。');
+        }
+      }
+
+      // 添加摄像头切换按钮（前置/后置）
+      function addCameraSwitchButton() {
+        // 检查是否有多个摄像头可用
+        navigator.mediaDevices.enumerateDevices()
+          .then(devices => {
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+            if (videoDevices.length > 1) {
+              // 创建切换按钮
+              const switchBtn = document.createElement('button');
+              switchBtn.innerHTML = '&#8635;'; // 循环箭头符号
+              switchBtn.className = 'camera-switch-btn';
+              switchBtn.style.cssText = `
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                background: rgba(0,0,0,0.5);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10;
+              `;
+
+              document.querySelector('.camera-header').appendChild(switchBtn);
+
+              // 当前是否使用前置摄像头
+              let usingFrontCamera = false;
+
+              // 切换摄像头事件
+              switchBtn.addEventListener('click', async () => {
+                usingFrontCamera = !usingFrontCamera;
+
+                // 停止当前视频流
+                if (stream) {
+                  stream.getTracks().forEach(track => track.stop());
+                }
+
+                // 获取新的视频流
+                try {
+                  stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                      facingMode: { ideal: usingFrontCamera ? 'user' : 'environment' },
+                      width: { ideal: 1280 },
+                      height: { ideal: 720 }
+                    },
+                    audio: false
+                  });
+
+                  videoElement.srcObject = stream;
+                } catch (err) {
+                  console.error('切换摄像头失败:', err);
+                  alert('切换摄像头失败，请重试。');
+                }
+              });
+            }
+          })
+          .catch(err => console.error('无法检测设备:', err));
+      }
+
+      // 拍照功能
+      function takePhoto() {
+        if (!stream) return;
+
+        // 创建临时canvas
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        // 设置canvas尺寸与视频流相同
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+
+        // 将当前视频帧绘制到canvas
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        // 将canvas内容转换为图片
+        capturedImage = canvas.toDataURL('image/jpeg');
+
+        // 设置结果图片
+        resultImage.src = capturedImage;
+
+        return capturedImage;
+      }
+
+      // 初始化摄像头
+      initCamera();
+
+      // 拍照按钮点击
+      captureBtn.addEventListener('click', () => {
+        // 拍照并获取图片
+        takePhoto();
+
+        // 显示识别中状态
+        processingOverlay.style.display = 'flex';
+        
+        // 模拟识别过程（这里可以替换为实际的API调用）
+        setTimeout(() => {
+          processingOverlay.style.display = 'none';
+          resultOverlay.style.display = 'flex';
+
+          // 停止视频流以节省资源
+          if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+          }
+        }, 3000);
+      });
+      
+      // 返回相机界面
+      window.backToCamera = () => {
+        resultOverlay.style.display = 'none';
+
+        // 重新启动摄像头
+        initCamera();
+      };
+      
+      // 识别失败的处理
+      window.showIdentifyError = () => {
+        processingOverlay.style.display = 'none';
+        alert('抱歉，我好像认不出这株植物呢，请换个角度再试试吧！');
+      };
+
+      // 重新识别按钮
+      document.querySelector('.result-actions .action-button[style*="background-color: #888"]').addEventListener('click', backToCamera);
+    });
+  </script>
+</body>
+</html>
