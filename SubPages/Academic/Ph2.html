@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>大学物理下考纲要求</title>
+  <style>
+    :root {
+      --color-master: #4caf50;    /* 掌握 - 绿色 */
+      --color-understand: #2196f3; /* 理解 - 蓝色 */
+      --color-know: #ff9800;      /* 了解 - 橙色 */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #fafafa;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px 0;
+      border-bottom: 2px solid #eee;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95em;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    .master-legend { background-color: var(--color-master); }
+    .understand-legend { background-color: var(--color-understand); }
+    .know-legend { background-color: var(--color-know); }
+
+    .chapter {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .chapter-header {
+      background-color: #f5f5f5;
+      padding: 16px 20px;
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #2c3e50;
+      border-bottom: 1px solid #eee;
+    }
+
+    .section {
+      padding: 16px 20px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-title {
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title.master { color: var(--color-master); }
+    .section-title.understand { color: var(--color-understand); }
+    .section-title.know { color: var(--color-know); }
+
+    .section-content ul {
+      padding-left: 20px;
+    }
+
+    .section-content li {
+      margin-bottom: 8px;
+      text-align: justify;
+    }
+
+    .section-content li:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      .chapter-header { font-size: 1.2em; }
+      .section-title { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>大学物理下考纲要求</h1>
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-color master-legend"></div>
+      <span>掌握（Master）</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color understand-legend"></div>
+      <span>理解（Understand）</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color know-legend"></div>
+      <span>了解（Know/Aware）</span>
+    </div>
+  </div>
+</header>
+
+<!-- 第9章 -->
+<div class="chapter">
+  <div class="chapter-header">第9章 恒定磁场</div>
+
+  <div class="section">
+    <div class="section-title master">● 掌握</div>
+    <div class="section-content">
+      <ul>
+        <li>磁感应强度的概念及毕奥—萨伐尔定律，能用该定律计算简单几何形状载流导体的磁场分布。</li>
+        <li>安培定律，能用该定律和洛仑兹力公式计算在磁场中运动的电荷及载流导线、载流线圈所受磁场的作用。</li>
+        <li>在磁介质中磁感应强度 <strong>B</strong> 与磁场强度 <strong>H</strong> 的关系，能用介质中的安培环路定理计算有磁介质存在时磁场分布。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title understand">● 理解</div>
+    <div class="section-content">
+      <ul>
+        <li>磁场的高斯定理、安培环路定理所描述的性质，并学会用安培环路定理计算磁感应强度的方法。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>磁介质的磁化现象和微观机理及铁磁质的磁化特性。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 第10章 -->
+<div class="chapter">
+  <div class="chapter-header">第10章 电磁感应</div>
+
+  <div class="section">
+    <div class="section-title master">● 掌握</div>
+    <div class="section-content">
+      <ul>
+        <li>法拉第电磁感应定律，会计算简单导体或回路中的感应电动势。</li>
+        <li>会计算一些简单的磁场能量。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title understand">● 理解</div>
+    <div class="section-content">
+      <ul>
+        <li>动生电动势和感生电动势产生的机理及麦克斯韦提出的感应电场的概念。</li>
+        <li>电路中的电磁感应现象（自感、互感），能计算简单电路中的自感和互感系数。</li>
+        <li>位移电流的概念；麦克斯韦方程组积分形式的物理意义及电磁场的物质性。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>感应电场的计算。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 第11章 -->
+<div class="chapter">
+  <div class="chapter-header">第11章 振动与波动</div>
+
+  <div class="section">
+    <div class="section-title master">● 掌握</div>
+    <div class="section-content">
+      <ul>
+        <li>谐振动的基本特征及描述物理量（振幅、频率、位相、能量等），能建立一维谐振动的微分方程并由初始条件求解振动方程；用旋转矢量法求解一维谐振动的问题。</li>
+        <li>两个同方向同频率谐振动合成的规律。</li>
+        <li>机械波产生的条件及振动与波动的关联，能熟练从已知点的谐振动方程写出平面简谐波的波函数。</li>
+        <li>机械波的相干条件，能用位相差和波程差确定两列相干波在相遇点的极大或极小条件（包含驻波）。</li>
+        <li>平面电磁波的性质及能量的计算。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title understand">● 理解</div>
+    <div class="section-content">
+      <ul>
+        <li>波动的能量密度、能流密度概念。</li>
+        <li>惠更斯原理和波的叠加原理。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>两不同频率谐振动合成“拍”和两个垂直谐振动合成的情况。</li>
+        <li>阻尼振动、受迫振动、共振振动的规律及振动的相空间描述。</li>
+        <li>振动曲线与波动曲线的差异及波动能量与振动能量的区别。</li>
+        <li>声波的多普勒效应。</li>
+        <li>电磁振荡规律及发射电磁波的条件。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 第13章 -->
+<div class="chapter">
+  <div class="chapter-header">第13章 波动光学</div>
+
+  <div class="section">
+    <div class="section-title master">● 掌握</div>
+    <div class="section-content">
+      <ul>
+        <li>光波相干叠加的条件及光程差与位相差的关系；分振幅干涉和薄膜干涉条纹的位置确定；光波干涉的应用（牛顿环、迈克尔孙干涉仪等）。</li>
+        <li>单缝夫朗和费衍射的规律；光栅衍射公式及缺级的概念；计算光栅衍射条纹的位置；分析光栅常数及波长对衍射条纹分布的影响。</li>
+        <li>布喇格公式、光学仪器的分辨率。</li>
+        <li>马吕斯定律、布儒斯特定律及线偏光的起偏和检偏。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title understand">● 理解</div>
+    <div class="section-content">
+      <ul>
+        <li>光程的概念。</li>
+        <li>惠更斯-菲涅耳原理。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>产生相干光的方法；光波的时间相干性与空间相干性。</li>
+        <li>双缝衍射与双缝干涉的区别。</li>
+        <li>X光衍射、圆孔衍射。</li>
+        <li>光波的各种偏振态及如何区分它们；晶体的双折射现象及获得圆偏光和椭圆偏振光的方法；线偏振光的干涉。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 第14章 -->
+<div class="chapter">
+  <div class="chapter-header">第14章 早期量子论</div>
+
+  <div class="section">
+    <div class="section-title understand">● 理解</div>
+    <div class="section-content">
+      <ul>
+        <li>爱因斯坦光电方程、康普顿效应的实验规律及光的波粒二象性。</li>
+        <li>玻尔的原子量子论及氢原子理论。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>普朗克的能量子假说。</li>
+        <li>氢原子光谱的规律及巴尔末公式。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 第15章 -->
+<div class="chapter">
+  <div class="chapter-header">第15章 量子力学基础</div>
+
+  <div class="section">
+    <div class="section-title master">● 掌握</div>
+    <div class="section-content">
+      <ul>
+        <li>一维定态薛定谔方程，能用其求解一维无限深势阱中电子的问题。</li>
+        <li>描述原子中电子运动的四个量子数。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title understand">● 理解</div>
+    <div class="section-content">
+      <ul>
+        <li>实物粒子的波粒二象性及其波动性物理量与粒子性物理量的关系。</li>
+        <li>描述微观粒子波粒二象性波函数的统计意义及不确定关系，能用波函数及一维位置动量的不确定关系做简单的计算。</li>
+        <li>势阱中电子驻波与其能量量子化的关系。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>德布罗意的物质波假说及电子衍射实验规律。</li>
+        <li>一维方势垒及隧道效应。</li>
+        <li>原子中电子角动量量子化及角动量空间量子化；斯忒恩-盖拉赫实验及电子自旋运动；泡利不相容原理；多电子原子状态及原子壳层结构。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 第16章 -->
+<div class="chapter">
+  <div class="chapter-header">第16章 激光和半导体</div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>激光的特性、产生的机理及其应用。</li>
+        <li>半导体及固体能带结构。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 第17章 -->
+<div class="chapter">
+  <div class="chapter-header">第17章 原子核物理简介</div>
+
+  <div class="section">
+    <div class="section-title know">● 了解</div>
+    <div class="section-content">
+      <ul>
+        <li>原子核的结构及其基本性质。</li>
+        <li>原子核的衰变和核反应的基本规律及核能的利用。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
